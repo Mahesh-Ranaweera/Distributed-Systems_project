@@ -100,8 +100,16 @@ a {
   text-align: center;
   line-height: 50px;
   float: left;
-  color: white;
+  color: #39f;
+  background-color: white;
   border-radius: 2.5px;
+}
+
+.menu-home{
+  line-height: 50px;
+  width: 150px;
+  height: 50px;
+  float: left;
 }
 
 /* scroll bar =========================*/

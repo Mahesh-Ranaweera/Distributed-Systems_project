@@ -4,8 +4,11 @@ block content
   .uk-container
 
     .header-transparent
-      a(href="/").menu-icon
-        span(uk-icon="icon: home")
+      .menu-home
+        a(href="/")
+          .menu-icon
+              span(uk-icon="icon: home")
+      
       .sysinfo
         .uk-label.uk-label-success
           | cpu: #{cpu}
