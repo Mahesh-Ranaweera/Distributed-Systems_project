@@ -1,19 +1,28 @@
 extends layout
 
 block content
-  .container_flex.app_container_wrapper
     .uk-container
-      .dashb_section.extra-margin
-        .uk-card.uk-card-default.uk-card-body.card-border-radius
-          .uk-card-title
-              | Graph 1
-          .uk-margin
-              canvas#myChart
+        .header-transparent
+            a(href="/").menu-icon
+                span(uk-icon="icon: home")
+            .sysinfo
+                .uk-label.uk-label-success
+                | cpu: #{cpu}
+                br
+                .uk-label.uk-label-success
+                | mem: #{mem}
 
-      .dashb_section.min-margin
-        .uk-card.uk-card-default.uk-card-body.card-border-radius
-          .uk-card-title
-              | Graph 2
+        .dashb_section.extra-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Graph 1
+                .uk-margin
+                    canvas#myChart
+
+            .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Graph 2
 
 
     script.

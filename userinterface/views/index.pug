@@ -1,18 +1,132 @@
 extends layout
 
 block content
-  .container_flex.app_container_wrapper
-    .uk-container
-      .dashb_section.extra-margin
-        .uk-card.uk-card-default.uk-card-body.card-border-radius
-          .uk-card-title
-              | Create Test 
-          .uk-margin
-              button.uk-button.uk-button-primary(type="submit") Update
+  .uk-container
 
-      .dashb_section.min-margin
-        .uk-card.uk-card-default.uk-card-body.card-border-radius
-          .uk-card-title
-              | Create Test 
-              
-          
+    .header-transparent
+      a(href="/").menu-icon
+        span(uk-icon="icon: home")
+      .sysinfo
+        .uk-label.uk-label-success
+          | cpu: #{cpu}
+        br
+        .uk-label.uk-label-success
+          | mem: #{mem}
+
+    .dashb_section.extra-margin
+      .uk-card.uk-card-default.uk-card-body.card-border-radius
+        .uk-card-title
+            | Create Test 
+        .uk-margin
+            p Select framework
+            .uk-margin
+              select.uk-select 
+                option Apache Hadoop
+                option Apache Storm
+                option Apache Samza
+                option Apache Spark
+                option Apache Flink
+        .uk-margin
+            p Select Processing Method
+            .uk-margin
+              select.uk-select 
+                option Batch-only
+                option Stream-only
+                option Hybrid
+                option Custom  
+        .uk-margin
+            p Upload data
+            .uk-margin
+              .js-upload.uk-placeholder.uk-text-center
+                span(uk-icon="icon: cloud-upload")
+                span.uk-text-middle &nbsp;Drop the data here
+                .uk-form-custom
+                  input(type="file")
+                  span.uk-link &nbsp;Select one
+        .uk-margin
+            p Data preview
+            .progress-log
+            
+            progress#js-progress.uk-progress(value="0" max="100" hidden)
+        
+        .uk-margin
+            button.uk-button.uk-button-primary(type="submit") Add Test
+    
+    .dashb_section.min-margin
+      .uk-card.uk-card-default.uk-card-body.card-border-radius
+        .uk-card-title
+            | Scheduled Tests
+        .uk-margin
+            .sch-test-cont 
+              b Test 1
+              | Hadoop | Batch | Stream data asdasd asdasd asdasd
+        .uk-margin
+            .sch-test-cont 
+              b Test 1
+              | Hadoop | Batch | Stream data asdasd asdasd asdasd
+        .uk-margin
+            .sch-test-cont 
+              b Test 1
+              | Hadoop | Batch | Stream data asdasd asdasd asdasd
+        
+        .uk-margin
+          a(href="/progress")
+            button.uk-button.uk-button-primary(type="submit") Run Test
+
+  script.
+    var bar = document.getElementById('js-progress');
+
+    UIkit.upload('.js-upload', {
+
+        url: '',
+        multiple: true,
+
+        beforeSend: function () {
+            console.log('beforeSend', arguments);
+        },
+        beforeAll: function () {
+            console.log('beforeAll', arguments);
+        },
+        load: function () {
+            console.log('load', arguments);
+        },
+        error: function () {
+            console.log('error', arguments);
+        },
+        complete: function () {
+            console.log('complete', arguments);
+        },
+
+        loadStart: function (e) {
+            console.log('loadStart', arguments);
+
+            bar.removeAttribute('hidden');
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+
+        progress: function (e) {
+            console.log('progress', arguments);
+
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+
+        loadEnd: function (e) {
+            console.log('loadEnd', arguments);
+
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+
+        completeAll: function () {
+            console.log('completeAll', arguments);
+
+            setTimeout(function () {
+                bar.setAttribute('hidden', 'hidden');
+            }, 1000);
+
+            //alert('Upload Completed');
+        }
+
+    });
