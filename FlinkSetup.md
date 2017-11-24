@@ -5,6 +5,7 @@
 sudo add-apt-repository ppa:webupd8team/java
 sudo apt-get update
 sudo apt-get install oracle-java8-installer
+```
 2. Download and extract Flink archive to /usr/local folder
 ```sh
 wget http://www.apache.org/dyn/closer.lua/flink/flink-1.3.2/flink-1.3.2-bin-hadoop27-scala_2.11.tgz
