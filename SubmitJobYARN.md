@@ -6,14 +6,14 @@
 GET http://<server address>:<yarn port>/ws/v1/cluster/apps/new-application
 ```
 
-Response should be this:
+Response should be something like this:
 ```json
 {
   "application-id":"<app id>",
   "maximum-resource-capability":
     {
-      "memory":<mem in mb>,
-      "vCores":<cpus>
+      "memory":2048,
+      "vCores":4
     }
 }
 ```
