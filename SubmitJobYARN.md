@@ -67,7 +67,12 @@ Sample JSON:
 GET http://<server address>:<yarn port>/ws/v1/cluster/apps/<app id>/state
 ```
 
-Returns a JSON, where "state" can be any of the following: `NEW`, `NEW_SAVING`, `SUBMITTED`, `ACCEPTED`, `RUNNING`, `FINISHED`, `FAILED`, or `KILLED`.
+Returns job state as `NEW`, `NEW_SAVING`, `SUBMITTED`, `ACCEPTED`, `RUNNING`, `FINISHED`, `FAILED`, or `KILLED`.
 
-Extra information, like the "diagnostics" key are only available for certain states.
+## Check status of all jobs
 
+```
+GET http://<server address>:<yarn port>/ws/v1/cluster/apps
+```
+
+Returns all registered jobs on the server, including state and crash stack traces.
