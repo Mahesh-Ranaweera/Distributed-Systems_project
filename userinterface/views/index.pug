@@ -23,34 +23,14 @@ block content
         .uk-margin
             p Select Processing Method
             .uk-margin
-              select.uk-select 
-                option Batch-only
-                option Stream-only
-                option Hybrid
-                option Custom 
+              select.uk-select#selectmethod(onchange='updateframework();') 
+                option(value='batch') Batch-only
+                option(value='stream') Stream-only
+                option(value='hybrid') Hybrid
         .uk-margin
             p Select framework
             .uk-margin
-              select.uk-select 
-                option Apache Hadoop
-                option Apache Storm
-                option Apache Samza
-                option Apache Spark
-                option Apache Flink 
-        .uk-margin
-            p Upload data
-            .uk-margin
-              .js-upload.uk-placeholder.uk-text-center
-                span(uk-icon="icon: cloud-upload")
-                span.uk-text-middle &nbsp;Drop the data here
-                .uk-form-custom
-                  input(type="file")
-                  span.uk-link &nbsp;Select one
-        .uk-margin
-            p Data preview
-            .progress-log
-            
-            progress#js-progress.uk-progress(value="0" max="100" hidden)
+              select.uk-select#selectframework 
         
         .uk-margin
             button.uk-button.uk-button-primary(type="submit") Add Test
@@ -133,3 +113,63 @@ block content
         }
 
     });
+
+    //document onload actions
+    window.onload = function(){
+        //update frameworks
+        updateframework();
+
+
+    }
+
+    //empty the options
+    function resetOptions(id){
+        var options = id.options;
+        options.length = 0;
+    }
+
+
+    //update framework list
+    function updateframework(){
+        var selected = document.getElementById('selectmethod').value;
+        var frameworks = document.getElementById('selectframework');
+        //reset the options
+        resetOptions(frameworks);
+
+
+        //add otions
+        var hadoop = document.createElement('option');
+        hadoop.value = 'hadoop';
+        hadoop.text  = 'Apache Hadoop';
+
+        var storm = document.createElement('option');
+        storm.value = 'storm';
+        storm.text  = 'Apache Storm';
+
+        var samza = document.createElement('option');
+        samza.value = 'samza';
+        samza.text  = 'Apache Samza';
+
+        var spark = document.createElement('option');
+        spark.value = 'spark';
+        spark.text  = 'Apache Spark';
+
+        var flink = document.createElement('option');
+        flink.value = 'flink';
+        flink.text  = 'Apache Flink';
+
+        if(selected == "batch"){
+            console.log("batch selected")
+            frameworks.add(hadoop, null);
+        }else if(selected == "stream"){
+            console.log("stream selected")
+            frameworks.add(storm, null);
+            frameworks.add(samza, null);
+        }else if(selected == "hybrid"){
+            console.log("hybrid selected")
+            frameworks.add(spark, null);
+            frameworks.add(flink, null);
+        }else{
+            console.log("nothing selected")
+        }
+    }
