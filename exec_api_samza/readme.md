@@ -25,7 +25,14 @@ sudo chmod 755 samza
 sudo chmod 755 grid
 ```
 
-### 3 Start the server
+### 4 Open ports in digitalocean droplet
+```sh
+sudo ufw allow 3000 //for node server
+sudo ufw allow 8088 //for hadoop server
+
+```
+
+### 5 Start the server
 ```sh
 npm start
 

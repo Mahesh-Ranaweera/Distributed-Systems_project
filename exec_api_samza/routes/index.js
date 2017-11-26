@@ -94,7 +94,7 @@ router.get('/start_dfs', function(req, res, next){
 
       //send the json output
       console.log(start_data);
-      res.sendStatus(start_data);
+      res.json(start_data);
     });
   });
 });
@@ -121,7 +121,7 @@ router.get('/stop_dfs', function(req, res, next){
 
       //send the json output
       console.log(end_data);
-      res.sendStatus(end_data);
+      res.json(end_data);
     });
   });
 });
@@ -131,7 +131,7 @@ router.get('/stats_dfs', function(req, res, next){
     //get system usage data
     get_stats(function(data){
       console.log(data);
-      res.sendStatus(data);
+      res.json(data);
     })
 })
 
