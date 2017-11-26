@@ -19,7 +19,7 @@ block content
               select.uk-select#selectmethod(onchange='updateframework();') 
                 option(value='batch') Batch-only
                 option(value='stream') Stream-only
-                option(value='hybrid') Hybrid
+                //option(value='hybrid') Hybrid
         .uk-margin
             p Select framework
             .uk-margin
@@ -36,7 +36,7 @@ block content
         //schedule list goes here
         .uk-margin#scheduledtasks
         .uk-margin
-            form(method='post' action='/progress')
+            form(method='post' action='/sorter')
                 input#secretinput(type='hidden' name='jobs' value='')
                 a(href="/progress")
                     button.uk-button.uk-button-primary(type="submit") Run Jobs
@@ -145,17 +145,23 @@ block content
         flink.text  = 'Apache Flink';
 
         if(selected == "batch"){
-            console.log("batch selected")
+            //console.log("batch selected")
             frameworks.add(hadoop, null);
-        }else if(selected == "stream"){
-            console.log("stream selected")
-            frameworks.add(storm, null);
-            frameworks.add(samza, null);
-        }else if(selected == "hybrid"){
-            console.log("hybrid selected")
             frameworks.add(spark, null);
             frameworks.add(flink, null);
-        }else{
+        }else if(selected == "stream"){
+            //console.log("stream selected")
+            frameworks.add(storm, null);
+            frameworks.add(samza, null);
+            frameworks.add(spark, null);
+            frameworks.add(flink, null);
+        }
+        //- }else if(selected == "hybrid"){
+        //-     //console.log("hybrid selected")
+        //-     frameworks.add(spark, null);
+        //-     frameworks.add(flink, null);
+        //- }
+        else{
             console.log("nothing selected")
         }
     }
@@ -206,6 +212,4 @@ block content
             //add the job to list
             scheduler.innerHTML += content;
         }
-        
-
     }

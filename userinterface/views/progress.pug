@@ -6,12 +6,6 @@ block content
         .header-transparent
             a(href="/").menu-icon
                 span(uk-icon="icon: home")
-            .sysinfo
-                .uk-label.uk-label-success
-                | cpu: #{cpu}
-                br
-                .uk-label.uk-label-success
-                | mem: #{mem}
 
         .uk-card.uk-card-default.uk-card-body.card-border-radius
             .uk-margin
@@ -19,7 +13,7 @@ block content
             .uk-margin
                 .progress-log
                     code
-                        | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed a
+                        | #{jobs}
 
             .uk-margin
                 a(href="/represent")

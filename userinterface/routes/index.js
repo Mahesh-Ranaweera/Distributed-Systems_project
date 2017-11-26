@@ -49,15 +49,6 @@ io.on('connection', function(socket){
     console.log('connection made');
 });
 
-//connect with the hadoop server
-var WebHDFS = require('webhdfs');
-
-//create new client connection to Hadoop
-var hdfs = WebHDFS.createClient({
-    user: 'hduser',
-    host: 'localhost',
-    post: 50070 //default hadoop port
-});
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -67,10 +58,119 @@ router.get('/', function (req, res, next) {
     });
 });
 
-router.post('/progress', function (req, res, next) {
-    res.render('progress', {
-        title: 'progress'
-    });
+/** global var */
+var todo = [];
+
+//schedule the tasks for running each
+router.post('/sorter', function (req, res, next) {
+    //get the jobs from main page
+    var jobs = req.body.jobs;
+
+    if(jobs.length != 0){
+        //convert text back to json data
+        todo = JSON.parse(jobs);
+
+        //console.log(todo);
+        res.redirect('/schedule');
+    }else{
+        //head over to index if no jobs
+        res.redirect('/');
+    }
+});
+
+//schedule each task assigned
+router.get('/schedule', function(req, res, next){
+    if(todo.length != 0){
+        console.log(todo);
+        res.redirect('/progress');
+    }else{
+        res.redirect('/represent');
+    }
+});
+
+router.get('/progress', function (req, res, next) {
+    var len = todo.length;
+    console.log("length " + len + " " + todo);
+
+    //length = zero means jobs are done, else repeat
+    //if(len != 0){
+        //perform each test by going through the jobs
+        for(var i=0; i < todo.length; i++){
+            
+            console.log(todo[i].job.method)
+
+            if(todo[i].job.method == "batch"){
+                todo.shift(i);
+                return res.redirect('/schedule');
+            }
+
+            //todo.shift(i);
+            //res.redirect('/schedule');
+
+            // switch(todo[i].job.method){
+
+            //     //case hadoop
+            //     case "batch":
+            //         if(todo[i].job.framework == "hadoop"){
+            //             //hadoop
+            //             console.log("hadoop");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }else if(todo[i].job.framework == "spark"){
+            //             //spark
+            //             console.log("spark");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }else{
+            //             //flink 
+            //             console.log("flink");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }
+            //         break;
+            //     case "stream":
+            //         if(todo[i].job.framework == "storm"){
+            //             //hadoop
+            //             console.log("storm");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }else if(todo[i].job.framework == "samza"){
+            //             //spark
+            //             console.log("samza");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }else if(todo[i].job.framework == "spark"){
+            //             //spark
+            //             console.log("spark");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }else{
+            //             //flink 
+            //             console.log("flink");
+            //             //remove the job
+            //             delete todo[i];
+            //             res.redirect('/progress');
+            //         }
+                
+            //     //default:
+
+            // }
+        }
+
+        
+        // res.render('progress', {
+        //     title: 'progress',
+        //     jobs: todo
+        // });
+    // }else{
+    //     res.redirect('/represent');
+    // }
 });
 
 router.get('/represent', function (req, res, next) {
@@ -78,6 +178,14 @@ router.get('/represent', function (req, res, next) {
         title: 'data representation'
     });
 });
+
+
+
+
+
+
+
+
 
 var samzadata = [];
 function collectSamza(){
