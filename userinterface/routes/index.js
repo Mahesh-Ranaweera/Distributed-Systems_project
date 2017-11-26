@@ -84,39 +84,50 @@ router.get('/represent', function (req, res, next) {
     res.render('represent', {
         title: 'data representation'
     });
-})
+});
 
-
-var obj = null;
-function dataset(){
-    //var obj = null;
-
+var collect = [];
+function collectdata(){
     var URL = 'http://138.197.175.19:3000/stats_dfs';
 
-    setInterval(function(){
-        request.get(URL, function(err, resp, body){
-            if(!err && resp.statusCode == 200){
-                //convert data to json
-                var data = JSON.parse(body);
-                //console.log(data.time);
-                obj = data;
-            }else{
-                //res.json({"error": "error"});
-                obj = null;
-            }
-        })
-        console.log(obj);
-    }, 10000);
+    request.get(URL, function(err, resp, body){
+        if(!err && resp.statusCode == 200){
+            //convert data to json
+            var data = JSON.parse(body);
+            collect.push(data);
+        }
+    })
+    console.log(collect);
+}
+
+function task(){
+    setInterval(collectdata, 1000);
 }
 
 
-
 //view test memcpu graphs
-router.get("/graphs", function (req, res, next) {
-    //start the collection of data
-    dataset();
-    //res.json(obj);
-    res.redirect('/');
+router.get("/start_samza", function (req, res, next) {
+    //start samza
+    var URL = 'http://138.197.175.19:3000/start_dfs';
+
+    //request to start samza
+    request.get(URL, function(err, resp, body){
+        if(!err && resp.statusCode == 200){
+            var data = JSON.parse(body);
+
+            if(data.info.start){
+                console.log('samza started');
+
+                //start the collection of data
+                task();
+
+                res.redirect('/');
+            }else{
+                console.log('samza failed');
+                res.redirect('/');
+            }
+        }
+    });
 });
 
 module.exports = router;
