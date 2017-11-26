@@ -1,0 +1,33 @@
+#!/bin/bash
+
+COMMAND=$1
+
+#set the correct dir to excute folder
+DIR="/home/mi6/Documents/GITHUB/"
+
+start(){
+    echo "Starting"
+    #if already started stop for clear start
+    sudo $DIR/hello-samza/bin/grid stop all
+
+    sudo $DIR/hello-samza/bin/grid start all
+  
+}
+
+stop(){
+    echo "Stopping"
+    sudo $DIR/hello-samza/bin/grid stop all
+
+}
+
+# Check arguments
+if [ "$COMMAND" == "start" ]; then
+  start
+  exit 0
+elif [ "$COMMAND" == "stop" ]; then
+  stop
+  exit 0
+else
+  echo "Enter commands"
+  exit 0
+fi
