@@ -62,18 +62,12 @@ var hdfs = WebHDFS.createClient({
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-    //console.log(os.cpus());
-    var cpu = os.cpus();
-    var mem = os.totalmem();
-
     res.render('index', {
-        title: 'Express',
-        cpu: cpu,
-        mem: mem
+        title: 'Express'
     });
 });
 
-router.get('/progress', function (req, res, next) {
+router.post('/progress', function (req, res, next) {
     res.render('progress', {
         title: 'progress'
     });

@@ -8,13 +8,6 @@ block content
         a(href="/")
           .menu-icon
               span(uk-icon="icon: home")
-      
-      .sysinfo
-        .uk-label.uk-label-success
-          | cpu: #{cpu}
-        br
-        .uk-label.uk-label-success
-          | mem: #{mem}
 
     .dashb_section.extra-margin
       .uk-card.uk-card-default.uk-card-body.card-border-radius
@@ -33,28 +26,21 @@ block content
               select.uk-select#selectframework 
         
         .uk-margin
-            button.uk-button.uk-button-primary(type="submit") Add Test
+            button.uk-button.uk-button-primary(type="submit" onclick='scheduledTasks();') Add Test
     
     .dashb_section.min-margin
       .uk-card.uk-card-default.uk-card-body.card-border-radius
         .uk-card-title
             | Scheduled Tests
-        .uk-margin
-            .sch-test-cont 
-              b Test 1
-              | Hadoop | Batch | Stream data asdasd asdasd asdasd
-        .uk-margin
-            .sch-test-cont 
-              b Test 1
-              | Hadoop | Batch | Stream data asdasd asdasd asdasd
-        .uk-margin
-            .sch-test-cont 
-              b Test 1
-              | Hadoop | Batch | Stream data asdasd asdasd asdasd
         
+        //schedule list goes here
+        .uk-margin#scheduledtasks
         .uk-margin
-          a(href="/progress")
-            button.uk-button.uk-button-primary(type="submit") Run Test
+            form(method='post' action='/progress')
+                input#secretinput(type='hidden' name='jobs' value='')
+                a(href="/progress")
+                    button.uk-button.uk-button-primary(type="submit") Run Jobs
+                button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearList();') Clear Job List
 
   script.
     var bar = document.getElementById('js-progress');
@@ -172,4 +158,54 @@ block content
         }else{
             console.log("nothing selected")
         }
+    }
+
+    /** global var **/
+    var schedule = [];
+
+    //schedule the tasks for executing
+    function scheduledTasks(){
+        var process = document.getElementById('selectmethod').value;
+        var framework = document.getElementById('selectframework').value;
+
+        var sch = {
+            "job" : {
+                "method": process,
+                "framework" : framework
+            }
+        }
+
+        //add the job to list
+        schedule.push(sch);
+        
+        //update the schedule list
+        updateList();
+
+        console.log(schedule);
+    }
+
+    //clear the jobs
+    function clearList(){
+        schedule = [];
+        updateList();
+
+        console.log(schedule);
+    }
+
+    //update the scheduled list dynamically
+    function updateList(){
+        var scheduler = document.getElementById('scheduledtasks');
+        //enter the updated list into post input
+        var secretjob = document.getElementById('secretinput').value = JSON.stringify(schedule);
+        
+        //empty before update
+        scheduler.innerHTML = "";
+        for(var i = 0; i < schedule.length; i++){
+            var content = "<div class='sch-test-cont'><b>Job "+ (i+1) +"</b> Apache "+schedule[i].job.framework+" | "+schedule[i].job.method+"</div>";
+
+            //add the job to list
+            scheduler.innerHTML += content;
+        }
+        
+
     }
