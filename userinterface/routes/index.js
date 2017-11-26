@@ -40,10 +40,9 @@ client.query(`CREATE TABLE IF NOT EXISTS SAMZA(
                 time VARCHAR(50), 
                 PRIMARY KEY(id)
             );`, (err, res) => {
-    console.log(err, res);
+    //console.log(err, res);
     client.end();
 });
-
 
 //io connect for live feed
 io.on('connection', function(socket){
@@ -86,22 +85,28 @@ router.get('/represent', function (req, res, next) {
     });
 });
 
-var collect = [];
-function collectdata(){
+var samzadata = [];
+function collectSamza(){
     var URL = 'http://138.197.175.19:3000/stats_dfs';
 
     request.get(URL, function(err, resp, body){
         if(!err && resp.statusCode == 200){
             //convert data to json
             var data = JSON.parse(body);
-            collect.push(data);
+            samzadata.push(data);
         }
     })
-    console.log(collect);
+    console.log(samzadata);
 }
 
-function task(){
-    setInterval(collectdata, 1000);
+function samza_task(){
+    //default data collection is every 1sec
+    setInterval(collectSamza, 1000);
+}
+
+function samza_task_stop(){
+    //stop the data collection
+    clearInterval(collectSamza);
 }
 
 
@@ -119,7 +124,7 @@ router.get("/start_samza", function (req, res, next) {
                 console.log('samza started');
 
                 //start the collection of data
-                task();
+                samza_task();
 
                 res.redirect('/');
             }else{

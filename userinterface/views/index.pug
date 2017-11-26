@@ -19,7 +19,15 @@ block content
     .dashb_section.extra-margin
       .uk-card.uk-card-default.uk-card-body.card-border-radius
         .uk-card-title
-            | Create Test 
+            | Run Test 
+        .uk-margin
+            p Select Processing Method
+            .uk-margin
+              select.uk-select 
+                option Batch-only
+                option Stream-only
+                option Hybrid
+                option Custom 
         .uk-margin
             p Select framework
             .uk-margin
@@ -28,15 +36,7 @@ block content
                 option Apache Storm
                 option Apache Samza
                 option Apache Spark
-                option Apache Flink
-        .uk-margin
-            p Select Processing Method
-            .uk-margin
-              select.uk-select 
-                option Batch-only
-                option Stream-only
-                option Hybrid
-                option Custom  
+                option Apache Flink 
         .uk-margin
             p Upload data
             .uk-margin
