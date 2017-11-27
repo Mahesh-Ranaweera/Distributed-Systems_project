@@ -12,7 +12,7 @@ block content
     .dashb_section.extra-margin
       .uk-card.uk-card-default.uk-card-body.card-border-radius
         .uk-card-title
-            | Run Test 
+            | Create Test 
         .uk-margin
             p Select Processing Method
             .uk-margin
@@ -39,8 +39,8 @@ block content
             form(method='post' action='/sorter')
                 input#secretinput(type='hidden' name='jobs' value='')
                 a(href="/progress")
-                    button.uk-button.uk-button-primary(type="submit") Run Jobs
-                button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearList();') Clear Job List
+                    button.uk-button.uk-button-primary(type="submit") Run Tests
+                button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearList();') Clear List
 
   script.
     var bar = document.getElementById('js-progress');
@@ -207,7 +207,7 @@ block content
         //empty before update
         scheduler.innerHTML = "";
         for(var i = 0; i < schedule.length; i++){
-            var content = "<div class='sch-test-cont'><b>Job "+ (i+1) +"</b> Apache "+schedule[i].job.framework+" | "+schedule[i].job.method+"</div>";
+            var content = "<div class='sch-test-cont'><b>Test "+ (i+1) +"</b>&nbsp&nbsp&nbsp&nbsp <b>Apache "+schedule[i].job.framework+"</b> | "+schedule[i].job.method+"</div>";
 
             //add the job to list
             scheduler.innerHTML += content;
