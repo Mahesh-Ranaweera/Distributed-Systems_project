@@ -29,6 +29,8 @@ client.on('error', (err, client) => {
 
 //get the data
 var db = require('./db')(client);
+var query = require('./query');
+
 var hadoop= require('./hadoop');
 var storm = require('./storm');
 var samza = require('./samza');
@@ -46,6 +48,12 @@ router.get('/', function (req, res, next) {
 
 /** global var */
 var todo = [];
+/** initialized database names */
+const dbhadoop = 'hadoop',
+dbstorm  = 'storm',
+dbsamza  = 'samza',
+dbspark  = 'spark',
+dbflink  = 'flink';
 
 //schedule the tasks for running each
 router.post('/sorter', function (req, res, next) {
@@ -126,13 +134,22 @@ router.get('/progress', function (req, res, next) {
                             console.log("Samza started");
                             samza.samza(function(collected){
                                 
-                                console.log(collected);
+                                //console.log(collected);
 
-                                //after data collection stop samza
-                                samza.stop_samza(function(stop){
-                                    console.log("samza stopped");
-                                    return res.redirect('/schedule');
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbsamza, function(done){
+                                    //after data collection stop samza
+                                    samza.stop_samza(function(stop){
+                                        console.log("samza stopped");
+                                        return res.redirect('/schedule');
+                                    });
                                 });
+
+                                // //after data collection stop samza
+                                // samza.stop_samza(function(stop){
+                                //     console.log("samza stopped");
+                                //     return res.redirect('/schedule');
+                                // });
                             })
                         }else{
                             //exit

@@ -1,5 +1,8 @@
 var request = require('request');
 
+//start collecting data
+var samzadata = [];
+
 //start samza
 function start_samza(callback){
     //start samza
@@ -9,6 +12,9 @@ function start_samza(callback){
     request.get(URL, function(err, resp, body){
         if(!err && resp.statusCode == 200){
             var data = JSON.parse(body);
+
+            //add the base system reading
+            samzadata.push(data.info.payload);
 
             if(data.info.start){
                 //console.log('samza started');
@@ -41,8 +47,8 @@ function stop_samza(callback){
     });
 }
 
-//start collecting data
-var samzadata = [];
+// //start collecting data
+// var samzadata = [];
 function collectSamza(){
     var URL = 'http://138.197.175.19:3000/stats_dfs';
 
