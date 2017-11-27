@@ -174,8 +174,26 @@ router.get('/progress', function (req, res, next) {
 });
 
 router.get('/represent', function (req, res, next) {
-    res.render('represent', {
-        title: 'data representation'
+    query.getHistory(client, dbsamza, function(data){
+        console.log(data);
+
+        var graph_labels = [];
+        var graph_cpu = [];
+        var graph_mem = [];
+        for(var i = 0; i < data.length; i++){
+            graph_labels.push(data[i][0]);
+            graph_mem.push(data[i][1]);
+            graph_cpu.push(data[i][2]);
+        }
+
+        console.log(graph_labels, graph_cpu, graph_mem);
+
+        res.render('represent', {
+            title: 'data representation',
+            graph_labels: graph_labels,
+            graph_mem: graph_mem,
+            graph_cpu: graph_cpu
+        });
     });
 });
 

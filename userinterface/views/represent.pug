@@ -6,10 +6,11 @@ block content
             a(href="/").menu-icon
                 span(uk-icon="icon: home")
 
+
         .dashb_section.extra-margin
             .uk-card.uk-card-default.uk-card-body.card-border-radius
                 .uk-card-title
-                    | Graph 1
+                    | SAMAZA CPU
                 .uk-margin
                     canvas#myChart
 
@@ -20,6 +21,10 @@ block content
 
 
     script.
+        var graph_labels = [#{graph_labels}];
+        var graph_cpu = [#{graph_cpu}];
+        var graph_mem = [#{graph_mem}];
+
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -27,13 +32,22 @@ block content
 
             // The data for our dataset
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                //labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: graph_labels,
                 datasets: [{
-                    label: "My First dataset",
+                    label: "CPU",
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
-                    data: [0, 10, 5, 2, 20, 30, 45],
-                }]
+                    //data: [0, 10, 5, 2, 20, 30, 45],
+                    data: graph_cpu,
+                },
+                {
+                    label: "MEM",
+                    borderColor: 'rgb(255, 99, 132)',
+                    //data: [0, 10, 5, 2, 20, 30, 45],
+                    data: graph_mem,
+                }],
+                
             },
 
             // Configuration options go here

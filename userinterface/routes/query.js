@@ -1,3 +1,4 @@
+//add collected data to db
 var addHistory = function(client, upload, dbname, callback){
     //console.log(upload);
 
@@ -38,4 +39,23 @@ var addHistory = function(client, upload, dbname, callback){
     });
 }
 
+
+//get data history from db
+var getHistory = function(client, dbname, callback){
+    const query = {
+        text : 'SELECT * FROM '+dbname,
+        rowMode: 'array'
+    }
+
+    client.query(query, (err, res) => {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(res);
+            callback(res.rows)
+        }
+    })
+}
+
 module.exports.addHistory = addHistory;
+module.exports.getHistory = getHistory;
