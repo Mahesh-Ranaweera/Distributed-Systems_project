@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var os = require('os');
-var request = require('request');
 
 //get the socket info
 var http = require('http').Server(router);
 var io = require('socket.io')(http);
 
-//connect to postgre db
+//database initialization
 const {
     Client
 } = require('pg')
@@ -17,37 +16,24 @@ const client = new Client({
     database: 'dfs',
     password: 'testpost',
     port: 5432,
-})
+});
 
-client.connect()
-
+client.connect();
 
 client.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
 });
 
-//create the samza tables
-client.query(`CREATE TABLE IF NOT EXISTS SAMZA(
-                id SERIAL, cpu VARCHAR(10) NOT NULL, 
-                mem VARCHAR(20) NOT NULL, 
-                time VARCHAR(50), 
-                PRIMARY KEY(id)
-            ); 
-            CREATE TABLE IF NOT EXISTS HADOOP(
-                id SERIAL, cpu VARCHAR(10) NOT NULL, 
-                mem VARCHAR(20) NOT NULL, 
-                time VARCHAR(50), 
-                PRIMARY KEY(id)
-            );`, (err, res) => {
-    //console.log(err, res);
-    client.end();
-});
+/** Routing */
 
-//io connect for live feed
-io.on('connection', function(socket){
-    console.log('connection made');
-});
+//get the data
+var db = require('./db')(client);
+var hadoop= require('./hadoop');
+var storm = require('./storm');
+var samza = require('./samza');
+var spark = require('./spark');
+var flink = require('./flink');
 
 
 /* GET home page. */
@@ -108,53 +94,65 @@ router.get('/progress', function (req, res, next) {
                 if(todo[i].job.framework == "hadoop"){
                     //hadoop
                     console.log("hadoop");
+                    todo.shift(i);
+                    return res.redirect('/schedule');
                 }else if(todo[i].job.framework == "spark"){
                     //spark
                     console.log("spark");
+                    todo.shift(i);
+                    return res.redirect('/schedule');
                 }else{
                     //flink 
                     console.log("flink");
+                    todo.shift(i);
+                    return res.redirect('/schedule');
                 }
                 break;
             case "stream":
                 if(todo[i].job.framework == "storm"){
                     //hadoop
                     console.log("storm");
-                    res.redirect('/progress');
+                    todo.shift(i);
+                    return res.redirect('/schedule');
                 }else if(todo[i].job.framework == "samza"){
                     //spark
                     console.log("samza");
                     todo.shift(i);
                     
                     //start samza
-                    start_samza(function(read){
-                        if(read){
+                    samza.start_samza(function(start){
+                        if(start){
                             //if samza started start collecting data
                             console.log("Samza started");
-                            samza_collect(function(collected){
+                            samza.samza(function(collected){
                                 
                                 console.log(collected);
-                                return res.redirect('/schedule');
+
+                                //after data collection stop samza
+                                samza.stop_samza(function(stop){
+                                    console.log("samza stopped");
+                                    return res.redirect('/schedule');
+                                });
                             })
                         }else{
                             //exit
                             console.log("Samza failed");
+                            return res.redirect('/schedule');
                         }
                     });
                     
                 }else if(todo[i].job.framework == "spark"){
                     //spark
                     console.log("spark");
+                    todo.shift(i);
+                    return res.redirect('/schedule');
                 }else{
                     //flink 
                     console.log("flink");
+                    todo.shift(i);
+                    return res.redirect('/schedule');
                 }
-            
-            //default:
-
         }
-        //todo.shift(i);
-        //return res.redirect('/schedule');
     }
 });
 
@@ -163,54 +161,5 @@ router.get('/represent', function (req, res, next) {
         title: 'data representation'
     });
 });
-
-
-
-//start samza
-function start_samza(callback){
-    //start samza
-    var URL = 'http://138.197.175.19:3000/start_dfs';
-    
-    //request to start samza
-    request.get(URL, function(err, resp, body){
-        if(!err && resp.statusCode == 200){
-            var data = JSON.parse(body);
-
-            if(data.info.start){
-                //console.log('samza started');
-                callback(true);
-            }else{
-                //console.log('samza failed');
-                callback(false);
-            }
-        }
-    });
-}
-
-
-//start collecting data
-var samzadata = [];
-function collectSamza(){
-    var URL = 'http://138.197.175.19:3000/stats_dfs';
-
-    request.get(URL, function(err, resp, body){
-        if(!err && resp.statusCode == 200){
-            //convert data to json
-            var data = JSON.parse(body);
-            samzadata.push(data);
-        }
-    })
-    console.log(samzadata);
-}
-
-function samza_collect(callback){
-    //start collecting data
-    var data = setInterval(collectSamza, 1000)
-
-    setTimeout(function(){
-        clearInterval(data);
-        callback(samzadata);
-    }, 10000)
-}
 
 module.exports = router;
