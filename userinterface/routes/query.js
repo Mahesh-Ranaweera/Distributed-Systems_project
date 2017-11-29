@@ -1,3 +1,6 @@
+// const pgp = require('pg-promise')
+// const db = pgp('postgres://postgres:testpost@host:5432/dfs')
+
 //add collected data to db
 var addHistory = function(client, upload, dbname, callback){
     //console.log(upload);
@@ -57,5 +60,120 @@ var getHistory = function(client, dbname, callback){
     })
 }
 
+//get data from all databases
+var getAllDB = function(client, callback){
+
+    // db.task('getall', t => {
+    //     return t.batch([
+    //         t.any('SELECT * FROM samza'),
+    //         t.one('SELECT * FROM hadoop'),
+    //         t.one('SELECT * FROM storm'),
+    //         t.one('SELECT * FROM spark'),
+    //         t.one('SELECT * FROM flink')
+    //     ]);
+    // })
+    // .then(data => {
+    //     console.log(data);
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    // })
+    
+    const query1 = {
+        text : "SELECT * FROM hadoop",
+        rowMode: 'array'
+    }
+
+    const query2 = {
+        text : "SELECT * FROM storm",
+        rowMode: 'array'
+    }
+
+    const query3 = {
+        text : "SELECT * FROM samza",
+        rowMode: 'array'
+    }
+
+    const query4 = {
+        text : "SELECT * FROM spark",
+        rowMode: 'array'
+    }
+
+    const query5 = {
+        text : "SELECT * FROM flink",
+        rowMode: 'array'
+    }
+
+    alldata = {
+        'hadoop': null,
+        'storm' : null,
+        'samza' : null,
+        'spark' : null,
+        'flink' : null
+    }
+
+    //get hadoop data
+    client.query(query1, (err, res) => {
+        if(err){
+            console.log(err);
+        }else{
+            console.log(res.rows);
+
+            alldata.hadoop = res.rows;
+
+            //get storm data
+            client.query(query2, (err, res) =>{
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log(res.rows);
+
+                    alldata.storm = res.rows;
+
+                    //get samza data
+                    client.query(query3, (err, res) => {
+                        if(err){
+                            console.log(err);
+                        }else{
+                            console.log(res.rows);
+                            
+                            alldata.samza = res.rows;
+
+                            //get spark data
+                            client.query(query4, (err, res) => {
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    console.log(res.rows)
+
+                                    alldata.spark = res.rows;
+
+                                    //get flink data
+                                    client.query(query5, (err, res) => {
+                                        if(err){
+                                            console.log(err);
+                                        }else{
+                                            console.log(res.rows);
+
+                                            alldata.flink = res.rows;
+
+                                            callback(alldata);
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+
+    //client.query(query)
+    //.then(res => console.log(res.rows))
+}
+
+
 module.exports.addHistory = addHistory;
 module.exports.getHistory = getHistory;
+module.exports.getAllDB = getAllDB;

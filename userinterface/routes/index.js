@@ -261,36 +261,60 @@ router.get('/history', function (req, res, next) {
     });
 });
 
+
+
 //compare requested platform
-router.get('/compare', function (req, res, next) {
+router.post('/compare', function (req, res, next) {
+
+    console.log(req.body.comp);
+
+    var graphs = [];
+    //get the comparisons from main page
+    var comp = JSON.parse(req.body.comp);
+
+    query.getAllDB(client, function(data){
+        console.log("data all: " + data);
+    });
+
+    //get the data from the dbs
+    for(var i = 0; i < comp.length; i++){
+
+        if(comp[i].job.framework == 'hadoop' && comp[i].job.method == 'batch'){
+            console.log('Hadoop batch')
+        }
+
+        if(comp[i].job.framework == 'storm' && comp[i].job.method == 'stream'){
+            console.log('Storm Stream')
+        }
+
+        if(comp[i].job.framework == 'samza' && comp[i].job.method == 'stream'){
+            console.log('Samza Stream')
+        }
+
+        if(comp[i].job.framework == 'spark' && comp[i].job.method == 'batch'){
+            console.log('Spark Batch')
+        }
+
+        if(comp[i].job.framework == 'spark' && comp[i].job.method == 'stream'){
+            console.log('Spark Stream')
+        }
+
+        if(comp[i].job.framework == 'flink' && comp[i].job.method == 'batch'){
+            console.log('Flink Batch')
+        }
+
+        if(comp[i].job.framework == 'flink' && comp[i].job.method == 'stream'){
+            console.log('Flink Stream')
+        }
+    }
 
 
-
+    console.log(graphs);
+    //generate the graphs for each framwork
 
     res.render('compare', {
         title: 'History Comparison',
     });
-
-
-    // query.getHistory(client, dbsamza, function(data){
-    //     console.log(data);
-
-    //     var graph_labels = [];
-    //     var graph_cpu = [];
-    //     var graph_mem = [];
-    //     for(var i = 0; i < data.length; i++){
-    //         graph_labels.push(data[i][0]);
-    //         graph_mem.push(data[i][1]);
-    //         graph_cpu.push(data[i][2]);
-    //     }
-
-    //     console.log(graph_labels, graph_cpu, graph_mem);
-
-
-    //     datajs = "function test(){console.log('Mahesh');} test();";
-
-        
-    // });
 });
 
 
