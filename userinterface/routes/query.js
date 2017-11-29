@@ -62,22 +62,6 @@ var getHistory = function(client, dbname, callback){
 
 //get data from all databases
 var getAllDB = function(client, callback){
-
-    // db.task('getall', t => {
-    //     return t.batch([
-    //         t.any('SELECT * FROM samza'),
-    //         t.one('SELECT * FROM hadoop'),
-    //         t.one('SELECT * FROM storm'),
-    //         t.one('SELECT * FROM spark'),
-    //         t.one('SELECT * FROM flink')
-    //     ]);
-    // })
-    // .then(data => {
-    //     console.log(data);
-    // })
-    // .catch(err => {
-    //     console.log(err);
-    // })
     
     const query1 = {
         text : "SELECT * FROM hadoop",
@@ -112,12 +96,42 @@ var getAllDB = function(client, callback){
         'flink' : null
     }
 
+    alldata = {
+        'hadoop': {
+            'label': null,
+            'mem': null,
+            'cpu': null
+        },
+        'storm' : {
+            'label': null,
+            'mem': null,
+            'cpu': null
+        },
+        'samza' : {
+            'label': null,
+            'mem': null,
+            'cpu': null
+        },
+        'spark' : {
+            'label': null,
+            'mem': null,
+            'cpu': null
+        },
+        'flink' : {
+            'label': null,
+            'mem': null,
+            'cpu': null
+        }
+    }
+
+    var hadoop_arr, storm_arr, samza_arr, spark_arr, flink_arr = [];
+
     //get hadoop data
     client.query(query1, (err, res) => {
         if(err){
             console.log(err);
         }else{
-            console.log(res.rows);
+            //console.log(res.rows);
 
             alldata.hadoop = res.rows;
 
@@ -126,7 +140,7 @@ var getAllDB = function(client, callback){
                 if(err){
                     console.log(err);
                 }else{
-                    console.log(res.rows);
+                    //console.log(res.rows);
 
                     alldata.storm = res.rows;
 
@@ -144,7 +158,7 @@ var getAllDB = function(client, callback){
                                 if(err){
                                     console.log(err);
                                 }else{
-                                    console.log(res.rows)
+                                    //console.log(res.rows)
 
                                     alldata.spark = res.rows;
 
@@ -153,7 +167,7 @@ var getAllDB = function(client, callback){
                                         if(err){
                                             console.log(err);
                                         }else{
-                                            console.log(res.rows);
+                                            //console.log(res.rows);
 
                                             alldata.flink = res.rows;
 

@@ -268,53 +268,55 @@ router.post('/compare', function (req, res, next) {
 
     console.log(req.body.comp);
 
-    var graphs = [];
-    //get the comparisons from main page
-    var comp = JSON.parse(req.body.comp);
+    if(req.body.comp != 0){
+        var graphs = [];
 
-    query.getAllDB(client, function(data){
-        console.log("data all: " + data);
-    });
+        //get the comparisons from main page
+        var comp = JSON.parse(req.body.comp);
 
-    //get the data from the dbs
-    for(var i = 0; i < comp.length; i++){
+        query.getAllDB(client, function(data){
+            console.log("data all: " + data);
 
-        if(comp[i].job.framework == 'hadoop' && comp[i].job.method == 'batch'){
-            console.log('Hadoop batch')
-        }
+            //only add the comparison data
+            for(var i = 0; i < comp.length; i++){
+        
+                if(comp[i].job.framework == 'hadoop' && comp[i].job.method == 'batch'){
+                    console.log('Hadoop batch')
 
-        if(comp[i].job.framework == 'storm' && comp[i].job.method == 'stream'){
-            console.log('Storm Stream')
-        }
-
-        if(comp[i].job.framework == 'samza' && comp[i].job.method == 'stream'){
-            console.log('Samza Stream')
-        }
-
-        if(comp[i].job.framework == 'spark' && comp[i].job.method == 'batch'){
-            console.log('Spark Batch')
-        }
-
-        if(comp[i].job.framework == 'spark' && comp[i].job.method == 'stream'){
-            console.log('Spark Stream')
-        }
-
-        if(comp[i].job.framework == 'flink' && comp[i].job.method == 'batch'){
-            console.log('Flink Batch')
-        }
-
-        if(comp[i].job.framework == 'flink' && comp[i].job.method == 'stream'){
-            console.log('Flink Stream')
-        }
+                }
+        
+                if(comp[i].job.framework == 'storm' && comp[i].job.method == 'stream'){
+                    console.log('Storm Stream')
+                }
+        
+                if(comp[i].job.framework == 'samza' && comp[i].job.method == 'stream'){
+                    console.log('Samza Stream')
+                }
+        
+                if(comp[i].job.framework == 'spark' && comp[i].job.method == 'batch'){
+                    console.log('Spark Batch')
+                }
+        
+                if(comp[i].job.framework == 'spark' && comp[i].job.method == 'stream'){
+                    console.log('Spark Stream')
+                }
+        
+                if(comp[i].job.framework == 'flink' && comp[i].job.method == 'batch'){
+                    console.log('Flink Batch')
+                }
+        
+                if(comp[i].job.framework == 'flink' && comp[i].job.method == 'stream'){
+                    console.log('Flink Stream')
+                }
+            }
+            
+            res.render('compare', {
+                title: 'History Comparison',
+            });
+        });
+    }else{
+        res.redirect('/');
     }
-
-
-    console.log(graphs);
-    //generate the graphs for each framwork
-
-    res.render('compare', {
-        title: 'History Comparison',
-    });
 });
 
 
