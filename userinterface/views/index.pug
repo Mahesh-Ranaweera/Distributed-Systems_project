@@ -11,12 +11,12 @@ block content
 
     .dashb_section.extra-margin
         .uk-card.uk-card-default.uk-card-body.card-border-radius
-            ul.uk-subnav.uk-subnav-pill(uk-switcher onclick='')
-                li(onclick='toggle_wrapper("createtest");')
+            ul.uk-subnav.uk-subnav-pill
+                li#ctest(onclick='toggle_wrapper("createtest", "ctest");')
                     a(href='#') Create Test
-                li(onclick='toggle_wrapper("findhistory");') 
+                li#fhistory(onclick='toggle_wrapper("findhistory", "fhistory");') 
                     a(href='#') Historical Data
-                li(onclick='toggle_wrapper("comparetest");')
+                li#comptest(onclick='toggle_wrapper("comparetest", "comptest");')
                     a(href='#') Compare Frameworks
 
     //create and run bigdata test
@@ -116,8 +116,24 @@ block content
     window.onload = function(){
         //update frameworks
         updateframework();
-        defaultcard();
+        
+        var openid = getopenid();
+        var opentab= getopentab();
+        defaultcard(openid, opentab);
+    }
+    
+    //localstorage 
+    function storewrapper(openid, opentab){
+        localStorage.setItem('openid', openid);
+        localStorage.setItem('opentab', opentab);
+    }
 
+    function getopenid(){
+        return localStorage.getItem('openid');
+    }
+
+    function getopentab(){
+        return localStorage.getItem('opentab');
     }
 
     //empty the options
@@ -227,18 +243,33 @@ block content
     }
 
     //display default card
-    function defaultcard(){
-        document.getElementById('createtest').style.display = 'block';
+    function defaultcard(openid, opentab){
+        if(openid == null){
+            document.getElementById('createtest').style.display = 'block';
+        }else{
+            document.getElementById(opentab).classList.add('uk-active');
+            document.getElementById(openid).style.display = 'block';
+        }
     }
 
     //clear all visibility wrappers
     function hide(){
-        document.getElementById('createtest').style.display = 'none';
-        document.getElementById('findhistory').style.display = 'none';
-        document.getElementById('comparetest').style.display = 'none';
+        var ctest = document.getElementById('createtest');
+        var fhistory = document.getElementById('findhistory');
+        var comptest = document.getElementById('comparetest');
+
+        document.getElementById('ctest').classList.remove('uk-active');
+        document.getElementById('fhistory').classList.remove('uk-active');
+        document.getElementById('comptest').classList.remove('uk-active');
+
+        ctest.style.display = 'none';
+        fhistory.style.display = 'none';
+        comptest.style.display = 'none';
     }
 
-    function toggle_wrapper(displayid){
+    function toggle_wrapper(displayid, displaytab){
         hide();
+        storewrapper(displayid, displaytab);
         document.getElementById(displayid).style.display = 'block';
+        document.getElementById(displaytab).classList.add('uk-active');
     }
