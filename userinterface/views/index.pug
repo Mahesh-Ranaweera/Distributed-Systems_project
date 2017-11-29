@@ -12,10 +12,10 @@ block content
     .dashb_section.extra-margin
         .uk-card.uk-card-default.uk-card-body.card-border-radius
             ul.uk-subnav.uk-subnav-pill
-                li#ctest(onclick='toggle_wrapper("createtest", "ctest");')
-                    a(href='#') Create Test
                 li#fhistory(onclick='toggle_wrapper("findhistory", "fhistory");') 
                     a(href='#') Historical Data
+                li#ctest(onclick='toggle_wrapper("createtest", "ctest");')
+                    a(href='#') Create Test
                 li#comptest(onclick='toggle_wrapper("comparetest", "comptest");')
                     a(href='#') Compare Frameworks
 
@@ -50,8 +50,8 @@ block content
                 .uk-margin
                     form(method='post' action='/sorter')
                         input#secretinput(type='hidden' name='jobs' value='')
-                        a(href="/progress")
-                            button.uk-button.uk-button-primary(type="submit") Run Tests
+                        //a(href="/progress")
+                        button.uk-button.uk-button-primary(type="submit") Run Tests
                         button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearList();') Clear List
     
     //Wrapper to find history of each bigdata
@@ -106,8 +106,35 @@ block content
         .dashb_section.min-margin
             .uk-card.uk-card-default.uk-card-body.card-border-radius
                 .uk-card-title
-                    | Compare Framworks
+                    | Compare Frameworks
                 .uk-margin
+                    p Select Processing Method
+                    .uk-margin
+                    select.uk-select#selectmethodcomp(onchange='updateframeworkComp();') 
+                        option(value='batch') Batch-only
+                        option(value='stream') Stream-only
+                        //option(value='hybrid') Hybrid
+                .uk-margin
+                    p Select framework
+                    .uk-margin
+                    select.uk-select#selectframeworkcomp
+                
+                .uk-margin
+                    button.uk-button.uk-button-primary(type="submit" onclick='scheduledTasksComp();') Add to list
+        
+        .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Scheduled Comparisons
+                
+                //schedule list goes here
+                .uk-margin#scheduledtaskscomp
+                .uk-margin
+                    form(method='post' action='/compare')
+                        input#secretinputcomp(type='hidden' name='jobs' value='')
+                        //a(href="/progress")
+                        button.uk-button.uk-button-primary(type="submit") Compare
+                        button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearListComp();') Clear List
 
 
 
@@ -116,6 +143,7 @@ block content
     window.onload = function(){
         //update frameworks
         updateframework();
+        updateframeworkComp();
         
         var openid = getopenid();
         var opentab= getopentab();
@@ -143,7 +171,7 @@ block content
     }
 
 
-    //update framework list
+    //update framework list:: for running tests
     function updateframework(){
         var selected = document.getElementById('selectmethod').value;
         var frameworks = document.getElementById('selectframework');
@@ -242,10 +270,12 @@ block content
         }
     }
 
+    /***/
+
     //display default card
     function defaultcard(openid, opentab){
         if(openid == null){
-            document.getElementById('createtest').style.display = 'block';
+            document.getElementById('findhistory').style.display = 'block';
         }else{
             document.getElementById(opentab).classList.add('uk-active');
             document.getElementById(openid).style.display = 'block';
