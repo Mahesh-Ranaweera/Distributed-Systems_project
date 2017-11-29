@@ -10,101 +10,113 @@ block content
               span(uk-icon="icon: home")
 
     .dashb_section.extra-margin
-      .uk-card.uk-card-default.uk-card-body.card-border-radius
-        .uk-card-title
-            | Create Test 
-        .uk-margin
-            p Select Processing Method
-            .uk-margin
-              select.uk-select#selectmethod(onchange='updateframework();') 
-                option(value='batch') Batch-only
-                option(value='stream') Stream-only
-                //option(value='hybrid') Hybrid
-        .uk-margin
-            p Select framework
-            .uk-margin
-              select.uk-select#selectframework 
+        .uk-card.uk-card-default.uk-card-body.card-border-radius
+            ul.uk-subnav.uk-subnav-pill(uk-switcher onclick='')
+                li(onclick='toggle_wrapper("createtest");')
+                    a(href='#') Create Test
+                li(onclick='toggle_wrapper("findhistory");') 
+                    a(href='#') Historical Data
+                li(onclick='toggle_wrapper("comparetest");')
+                    a(href='#') Compare Frameworks
+
+    //create and run bigdata test
+    .container_wrapper#createtest
+        .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Create Test 
+                .uk-margin
+                    p Select Processing Method
+                    .uk-margin
+                    select.uk-select#selectmethod(onchange='updateframework();') 
+                        option(value='batch') Batch-only
+                        option(value='stream') Stream-only
+                        //option(value='hybrid') Hybrid
+                .uk-margin
+                    p Select framework
+                    .uk-margin
+                    select.uk-select#selectframework 
+                
+                .uk-margin
+                    button.uk-button.uk-button-primary(type="submit" onclick='scheduledTasks();') Add Test
         
-        .uk-margin
-            button.uk-button.uk-button-primary(type="submit" onclick='scheduledTasks();') Add Test
+        .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Scheduled Tests
+                
+                //schedule list goes here
+                .uk-margin#scheduledtasks
+                .uk-margin
+                    form(method='post' action='/sorter')
+                        input#secretinput(type='hidden' name='jobs' value='')
+                        a(href="/progress")
+                            button.uk-button.uk-button-primary(type="submit") Run Tests
+                        button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearList();') Clear List
     
-    .dashb_section.min-margin
-      .uk-card.uk-card-default.uk-card-body.card-border-radius
-        .uk-card-title
-            | Scheduled Tests
-        
-        //schedule list goes here
-        .uk-margin#scheduledtasks
-        .uk-margin
-            form(method='post' action='/sorter')
-                input#secretinput(type='hidden' name='jobs' value='')
-                a(href="/progress")
-                    button.uk-button.uk-button-primary(type="submit") Run Tests
-                button.uk-button.uk-button-default.uk-float-right(type="button" onclick='clearList();') Clear List
+    //Wrapper to find history of each bigdata
+    .container_wrapper#findhistory
+        .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Historical Data of Big data frameworks
+                .uk-margin
+                    .uk-card.uk-card-default.uk-card-body
+                        a(href='/history?reqdb=hadoop')
+                            .uk-card-badge.uk-label View History
+                        .uk-card-title Apache Hadoop
+                        img(src='/img/hadoop.png' width='200' height='100')
+                        p Description
+
+                .uk-margin
+                    .uk-card.uk-card-default.uk-card-body
+                        a(href='/history?reqdb=storm')
+                            .uk-card-badge.uk-label View History
+                        .uk-card-title Apache Storm
+                        img(src='/img/storm.png' width='200' height='100')
+                        p Description
+
+                .uk-margin
+                    .uk-card.uk-card-default.uk-card-body
+                        a(href='/history?reqdb=samza')
+                            .uk-card-badge.uk-label View History
+                        .uk-card-title Apache Samza
+                        img(src='/img/samza.png' width='200' height='100')
+                        p Description
+
+                .uk-margin
+                    .uk-card.uk-card-default.uk-card-body
+                        a(href='/history?reqdb=spark')
+                            .uk-card-badge.uk-label View History
+                        .uk-card-title Apache Spark
+                        img(src='/img/spark.png' width='200' height='100')
+                        p Description
+
+                .uk-margin
+                    .uk-card.uk-card-default.uk-card-body
+                        a(href='/history?reqdb=flink')
+                            .uk-card-badge.uk-label View History
+                        .uk-card-title Apache Flink
+                        img(src='/img/flink.png' width='200' height='100')
+                        p Description
+
+
+    //compare bidata
+    .container_wrapper#comparetest
+        .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | Compare Framworks
+                .uk-margin
+
+
 
   script.
-    var bar = document.getElementById('js-progress');
-
-    UIkit.upload('.js-upload', {
-
-        url: '',
-        multiple: true,
-
-        beforeSend: function () {
-            console.log('beforeSend', arguments);
-        },
-        beforeAll: function () {
-            console.log('beforeAll', arguments);
-        },
-        load: function () {
-            console.log('load', arguments);
-        },
-        error: function () {
-            console.log('error', arguments);
-        },
-        complete: function () {
-            console.log('complete', arguments);
-        },
-
-        loadStart: function (e) {
-            console.log('loadStart', arguments);
-
-            bar.removeAttribute('hidden');
-            bar.max = e.total;
-            bar.value = e.loaded;
-        },
-
-        progress: function (e) {
-            console.log('progress', arguments);
-
-            bar.max = e.total;
-            bar.value = e.loaded;
-        },
-
-        loadEnd: function (e) {
-            console.log('loadEnd', arguments);
-
-            bar.max = e.total;
-            bar.value = e.loaded;
-        },
-
-        completeAll: function () {
-            console.log('completeAll', arguments);
-
-            setTimeout(function () {
-                bar.setAttribute('hidden', 'hidden');
-            }, 1000);
-
-            //alert('Upload Completed');
-        }
-
-    });
-
     //document onload actions
     window.onload = function(){
         //update frameworks
         updateframework();
-
+        defaultcard();
 
     }
 
@@ -212,4 +224,21 @@ block content
             //add the job to list
             scheduler.innerHTML += content;
         }
+    }
+
+    //display default card
+    function defaultcard(){
+        document.getElementById('createtest').style.display = 'block';
+    }
+
+    //clear all visibility wrappers
+    function hide(){
+        document.getElementById('createtest').style.display = 'none';
+        document.getElementById('findhistory').style.display = 'none';
+        document.getElementById('comparetest').style.display = 'none';
+    }
+
+    function toggle_wrapper(displayid){
+        hide();
+        document.getElementById(displayid).style.display = 'block';
     }

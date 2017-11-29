@@ -112,6 +112,10 @@ a {
   float: left;
 }
 
+.container_wrapper{
+  display: none;
+}
+
 /* scroll bar =========================*/
 
 ::-webkit-scrollbar {

@@ -173,6 +173,8 @@ router.get('/progress', function (req, res, next) {
     }
 });
 
+
+//represent data for each run
 router.get('/represent', function (req, res, next) {
     query.getHistory(client, dbsamza, function(data){
         console.log(data);
@@ -201,6 +203,7 @@ router.get('/represent', function (req, res, next) {
     });
 });
 
+//represent history of the requested bigdata 
 router.get('/history', function (req, res, next) {
     var reqdb = req.query.reqdb;
     var dbdata = {
@@ -256,6 +259,38 @@ router.get('/history', function (req, res, next) {
             graph_cpu: graph_cpu
         });
     });
+});
+
+//compare requested platform
+router.get('/compare', function (req, res, next) {
+
+
+
+
+    res.render('compare', {
+        title: 'History Comparison',
+    });
+
+
+    // query.getHistory(client, dbsamza, function(data){
+    //     console.log(data);
+
+    //     var graph_labels = [];
+    //     var graph_cpu = [];
+    //     var graph_mem = [];
+    //     for(var i = 0; i < data.length; i++){
+    //         graph_labels.push(data[i][0]);
+    //         graph_mem.push(data[i][1]);
+    //         graph_cpu.push(data[i][2]);
+    //     }
+
+    //     console.log(graph_labels, graph_cpu, graph_mem);
+
+
+    //     datajs = "function test(){console.log('Mahesh');} test();";
+
+        
+    // });
 });
 
 
