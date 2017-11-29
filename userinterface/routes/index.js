@@ -188,13 +188,75 @@ router.get('/represent', function (req, res, next) {
 
         console.log(graph_labels, graph_cpu, graph_mem);
 
+
+        datajs = "function test(){console.log('Mahesh');} test();";
+
         res.render('represent', {
             title: 'data representation',
+            graph_labels: graph_labels,
+            graph_mem: graph_mem,
+            graph_cpu: graph_cpu,
+            datajs: datajs
+        });
+    });
+});
+
+router.get('/history', function (req, res, next) {
+    var reqdb = req.query.reqdb;
+    var dbdata = {
+        dbname : null,
+        graph_name : null
+    }
+
+    switch(reqdb){
+        case 'hadoop':
+            dbdata.dbname = dbhadoop;
+            dbdata.graph_name = "Apache Hadoop";
+            break;
+
+        case 'storm':
+            dbdata.dbname = dbstorm;
+            dbdata.graph_name = "Apache Storm";
+            break;
+        
+        case 'samza':
+            dbdata.dbname = dbsamza;
+            dbdata.graph_name = "Apache Samza";
+            break;
+
+        case 'spark':
+            dbdata.dbname = dbspark;
+            dbdata.graph_name = "Apache Spark";
+            break;
+        
+        case 'flink':
+            dbdata.dbname = dbflink;
+            dbdata.graph_name = "Apache Flink";
+    }
+
+    query.getHistory(client, dbdata.dbname, function(data){
+        //console.log(data);
+
+        var graph_labels = [];
+        var graph_cpu = [];
+        var graph_mem = [];
+        for(var i = 0; i < data.length; i++){
+            graph_labels.push(data[i][0]);
+            graph_mem.push(data[i][1]);
+            graph_cpu.push(data[i][2]);
+        }
+
+        //console.log(graph_labels, graph_cpu, graph_mem);
+
+        res.render('history', {
+            title: dbdata.dbname + ' history',
+            graph_name: dbdata.graph_name,
             graph_labels: graph_labels,
             graph_mem: graph_mem,
             graph_cpu: graph_cpu
         });
     });
 });
+
 
 module.exports = router;

@@ -51,7 +51,7 @@ var getHistory = function(client, dbname, callback){
         if(err){
             console.log(err);
         }else{
-            console.log(res);
+            //console.log(res);
             callback(res.rows)
         }
     })

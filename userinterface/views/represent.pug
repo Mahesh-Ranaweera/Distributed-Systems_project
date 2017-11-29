@@ -9,10 +9,12 @@ block content
 
         .dashb_section.extra-margin
             .uk-card.uk-card-default.uk-card-body.card-border-radius
-                .uk-card-title
-                    | SAMAZA CPU
-                .uk-margin
-                    canvas#myChart
+                each val in [1, 2, 3, 4]
+                    .uk-card-title
+                        | SAMAZA CPU
+                    .uk-margin
+                        - var idname = "myChart"+val
+                        canvas(id=idname)
 
             .dashb_section.min-margin
             .uk-card.uk-card-default.uk-card-body.card-border-radius
@@ -21,6 +23,8 @@ block content
 
 
     script.
+        #{datajs}
+
         var graph_labels = [#{graph_labels}];
         var graph_cpu = [#{graph_cpu}];
         var graph_mem = [#{graph_mem}];

@@ -1,0 +1,71 @@
+extends layout
+
+block content
+    .uk-container
+        .header-transparent
+            a(href="/").menu-icon
+                span(uk-icon="icon: home")
+
+
+        .dashb_section.extra-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | #{graph_name} CPU
+                .uk-margin
+                    canvas#cpugraph
+
+            .dashb_section.min-margin
+            .uk-card.uk-card-default.uk-card-body.card-border-radius
+                .uk-card-title
+                    | #{graph_name} MEM
+                .uk-margin
+                    canvas#memgraph
+
+
+    script.
+        var graph_labels = [#{graph_labels}];
+        var graph_cpu = [#{graph_cpu}];
+        var graph_mem = [#{graph_mem}];
+
+        var cpugraph = document.getElementById('cpugraph').getContext('2d');
+        var memgraph = document.getElementById('memgraph').getContext('2d');
+        
+        var chart1 = new Chart(cpugraph, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: graph_labels,
+                datasets: [{
+                    label: "CPU",
+                    backgroundColor: 'rgba(52, 152, 219, 0.5)',
+                    borderColor: 'rgba(41, 128, 185, 1)',
+                    data: graph_cpu,
+                }]
+            },
+            // Configuration options go here
+            options: {}
+        });
+
+        var chart2 = new Chart(memgraph, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: graph_labels,
+                datasets: [{
+                    label: "Memory",
+                    backgroundColor: 'rgba(52, 73, 94, 0.5)',
+                    borderColor: 'rgba(44, 62, 80, 1)',
+                    data: graph_mem,
+                }]
+            },
+            // Configuration options go here
+            options: {}
+        });
+
+
+              
+          
