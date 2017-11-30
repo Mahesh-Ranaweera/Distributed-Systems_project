@@ -1,0 +1,1 @@
+bin/spark-submit --class "WordCount" ~/wordcountSrc/target/freblogg-spark-wordcount-0.0.1.jar
