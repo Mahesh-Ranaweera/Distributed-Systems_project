@@ -32,5 +32,5 @@ The WordCount program is a simple Spark program, and was created using the tutor
 3. Put these files into the `wordcountSrc` folder: `pom.xml`, `build.sh`
 4. Put the `src` folder into the `wordcountSrc` folder.
 5. Run `build.sh`. This will build the Maven project.
-6. Place the `run.sh` file into the `~/server/spark-1.6.3-bin-hadoop2.6` directory.
-7. Run the `run.sh` file.
+6. Place the `run-batch.sh` file into the `~/server/spark-1.6.3-bin-hadoop2.6` directory.
+7. Run the `run-batch.sh` file.
