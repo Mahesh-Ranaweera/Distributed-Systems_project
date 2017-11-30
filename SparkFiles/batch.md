@@ -1,28 +1,5 @@
 # Spark batch setup
 
-## Installation
-
-1. Install Spark dependencies
-
-	Java (at time of initial setup, our version was "1.8.0_151")
-	```sh
-	sudo apt-get install default-jdk
-	sudo apt-get install maven
-	```
-
-2. Download Spark binaries into `~/server` directory (we tested on version 1.6.3)
-	```
-	cd ~
-	mkdir server
-	cd server
-	wget http://<spark download link>/spark-1.6.3-bin-hadoop2.6.tgz
-	```
-
-3. Extract the files
-	```sh
-	tar -xzvf spark-1.6.3-bin-hadoop2.6.tgz
-	```
-
 ## Running the WordCount program
 
 The WordCount program is a simple Spark program, and was created using the tutorial found [here](http://www.freblogg.com/2016/06/spark-word-count-with-java.html).
