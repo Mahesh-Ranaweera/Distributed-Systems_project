@@ -48,6 +48,7 @@ router.get('/', function (req, res, next) {
 
 /** global var */
 var todo = [];
+var completed_list = []
 /** initialized database names */
 const dbhadoop = 'hadoop',
 dbstorm  = 'storm',
@@ -65,8 +66,9 @@ router.post('/sorter', function (req, res, next) {
     if(jobs.length != 0){
         //convert text back to json data
         todo = JSON.parse(jobs);
+        completed_list = JSON.parse(jobs);
 
-        //console.log(todo);
+        //console.log(completed_list);
         res.redirect('/schedule');
     }else{
         //head over to index if no jobs
@@ -165,6 +167,11 @@ router.get('/progress', function (req, res, next) {
                     todo.shift(i);
                     return res.redirect('/schedule');
                 }
+
+                break;
+
+            default:
+                
         }
     }
 });
@@ -172,30 +179,56 @@ router.get('/progress', function (req, res, next) {
 
 //represent data for each run
 router.get('/represent', function (req, res, next) {
-    query.getHistory(client, dbsamza, function(data){
-        console.log(data);
 
-        var graph_labels = [];
-        var graph_cpu = [];
-        var graph_mem = [];
-        for(var i = 0; i < data.length; i++){
-            graph_labels.push(data[i][0]);
-            graph_mem.push(data[i][1]);
-            graph_cpu.push(data[i][2]);
+    var completed = [];
+    var links = [];
+
+    for(var i = 0; i < completed_list.length; i++){
+        var text = '['+(i+1)+'] : ';
+
+        if(completed_list[i].job.framework == 'hadoop' && completed_list[i].job.method == 'batch'){
+            text += 'Apache Hadoop - Batch';
+            links.push('/history?reqdb=hadoop')
         }
 
-        console.log(graph_labels, graph_cpu, graph_mem);
+        if(completed_list[i].job.framework == 'storm' && completed_list[i].job.method == 'stream'){
+            text += 'Apache Storm - Stream';
+            links.push('/history?reqdb=storm')
+        }
 
+        if(completed_list[i].job.framework == 'samza' && completed_list[i].job.method == 'stream'){
+            text += 'Apache Samza - Stream';
+            links.push('/history?reqdb=samza')
+        }
 
-        datajs = "function test(){console.log('Mahesh');} test();";
+        if(completed_list[i].job.framework == 'spark' && completed_list[i].job.method == 'batch'){
+            text += 'Apache Spark - Batch';
+            links.push('/history?reqdb=spark')
+        }
 
-        res.render('represent', {
-            title: 'data representation',
-            graph_labels: graph_labels,
-            graph_mem: graph_mem,
-            graph_cpu: graph_cpu,
-            datajs: datajs
-        });
+        if(completed_list[i].job.framework == 'spark' && completed_list[i].job.method == 'stream'){
+            text += 'Apache Spark - Stream';
+            links.push('/history?reqdb=spark_stream')
+        }
+
+        if(completed_list[i].job.framework == 'flink' && completed_list[i].job.method == 'batch'){
+            text += 'Apache Flink - Batch';
+            links.push('/history?reqdb=flink')
+        }
+
+        if(completed_list[i].job.framework == 'flink' && completed_list[i].job.method == 'stream'){
+            text += 'Apache Flink - Batch';
+            links.push('/history?reqdb=flink_stream')
+        }
+
+        completed.push(text);
+    }
+
+    console.log(completed_list)
+    res.render('represent', {
+        title: 'data representation',
+        completed: completed,
+        links: links,
     });
 });
 
@@ -306,13 +339,13 @@ router.post('/compare', function (req, res, next) {
                     batch = true;
 
                     var cpu = "{label: 'Apache Hadoop',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(26, 188, 156, 0.5)',"+
+                    "borderColor: 'rgba(22, 160, 133, 1)',"+
                     "data: ["+data.hadoop.cpu+"],}";
 
                      var mem = "{label: 'Apache Hadoop',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(26, 188, 156, 0.5)',"+
+                    "borderColor: 'rgba(22, 160, 133, 1)',"+
                     "data: ["+data.hadoop.mem+"],}";
 
                     batch_cpu.push(cpu);
@@ -324,13 +357,13 @@ router.post('/compare', function (req, res, next) {
                     stream = true;
 
                     var cpu = "{label: 'Apache Storm',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(241, 196, 15, 0.5)',"+
+                    "borderColor: 'rgba(243, 156, 18, 1)',"+
                     "data: ["+data.storm.cpu+"],}";
 
                     var mem = "{label: 'Apache Storm',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(241, 196, 15, 0.5)',"+
+                    "borderColor: 'rgba(243, 156, 18, 1)',"+
                     "data: ["+data.storm.mem+"],}";
 
                     stream_cpu.push(cpu);
@@ -360,13 +393,13 @@ router.post('/compare', function (req, res, next) {
                     batch = true;
 
                     var cpu = "{label: 'Apache Spark',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(231, 76, 60, 0.5)',"+
+                    "borderColor: 'rgba(192, 57, 43, 1)',"+
                     "data: ["+data.spark.cpu+"],}";
 
                      var mem = "{label: 'Apache Spark',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(231, 76, 60, 0.5)',"+
+                    "borderColor: 'rgba(192, 57, 43, 1)',"+
                     "data: ["+data.spark.mem+"],}";
 
                     batch_cpu.push(cpu);
@@ -378,13 +411,13 @@ router.post('/compare', function (req, res, next) {
                     stream = true;
 
                     var cpu = "{label: 'Apache Spark_stream',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(155, 89, 182, 0.5)',"+
+                    "borderColor: 'rgba(142, 68, 173, 1)',"+
                     "data: ["+data.spark_stream.cpu+"],}";
 
                     var mem = "{label: 'Apache Spark_stream',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(155, 89, 182, 0.5)',"+
+                    "borderColor: 'rgba(142, 68, 173, 1)',"+
                     "data: ["+data.spark_stream.mem+"],}";
 
                     stream_cpu.push(cpu);
@@ -396,13 +429,13 @@ router.post('/compare', function (req, res, next) {
                     batch = true;
 
                     var cpu = "{label: 'Apache Flink',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(149, 165, 166, 0.5)',"+
+                    "borderColor: 'rgba(127, 140, 141, 1)',"+
                     "data: ["+data.flink.cpu+"],}";
 
                      var mem = "{label: 'Apache Flink',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(149, 165, 166, 0.5)',"+
+                    "borderColor: 'rgba(127, 140, 141, 1)',"+
                     "data: ["+data.flink.mem+"],}";
 
                     batch_cpu.push(cpu);
@@ -414,13 +447,13 @@ router.post('/compare', function (req, res, next) {
                     stream = true;
 
                     var cpu = "{label: 'Apache Flink_stream',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(52, 73, 94, 0.5)',"+
+                    "borderColor: 'rgba(44, 62, 80, 1)',"+
                     "data: ["+data.flink_stream.cpu+"],}";
 
                     var mem = "{label: 'Apache Flink',"+
-                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
-                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "backgroundColor: 'rgba(52, 73, 94, 0.5)',"+
+                    "borderColor: 'rgba(44, 62, 80, 1)',"+
                     "data: ["+data.flink_stream.mem+"],}";
 
                     stream_cpu.push(cpu);

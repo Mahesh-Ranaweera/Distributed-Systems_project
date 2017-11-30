@@ -54,6 +54,8 @@ a {
   height: 210px;
   overflow-y: scroll;
   border-radius: 2.5px;
+  padding: 8px;
+  box-sizing: border-box;
   background-color: #f8f8f8;
 }
 

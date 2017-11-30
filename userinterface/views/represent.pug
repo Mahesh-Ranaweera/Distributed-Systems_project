@@ -1,61 +1,19 @@
 extends layout
 
 block content
-    .uk-container
-        .header-transparent
-            a(href="/").menu-icon
-                span(uk-icon="icon: home")
+    .center-card
+        .uk-container
+            .header-transparent
+                a(href="/").menu-icon
+                    span(uk-icon="icon: home")
 
-
-        .dashb_section.extra-margin
             .uk-card.uk-card-default.uk-card-body.card-border-radius
-                each val in [1, 2, 3, 4]
-                    .uk-card-title
-                        | SAMAZA CPU
-                    .uk-margin
-                        - var idname = "myChart"+val
-                        canvas(id=idname)
-
-            .dashb_section.min-margin
-            .uk-card.uk-card-default.uk-card-body.card-border-radius
-                .uk-card-title
-                    | SAMZA MEM
-
-
-    script.
-        #{datajs}
-
-        var graph_labels = [#{graph_labels}];
-        var graph_cpu = [#{graph_cpu}];
-        var graph_mem = [#{graph_mem}];
-
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                //labels: ["January", "February", "March", "April", "May", "June", "July"],
-                labels: graph_labels,
-                datasets: [{
-                    label: "CPU",
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    //data: [0, 10, 5, 2, 20, 30, 45],
-                    data: graph_cpu,
-                },
-                {
-                    label: "MEM",
-                    borderColor: 'rgb(255, 99, 132)',
-                    //data: [0, 10, 5, 2, 20, 30, 45],
-                    data: graph_mem,
-                }],
-                
-            },
-
-            // Configuration options go here
-            options: {}
-        });
-              
-          
+                .uk-margin
+                    | Following tests have been completed
+                .uk-margin
+                    .progress-log
+                        - for(var i = 0; i < completed.length; i++)
+                            - var link = links[i]
+                            - var text = completed[i]
+                            a(href=link target='_blank') 
+                                p=text
