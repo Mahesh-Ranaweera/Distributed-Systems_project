@@ -62,6 +62,8 @@ Compile the WordCount program using Hadoop
 	hadoop com.sun.tools.javac.Main WordCount.java
 	jar cf WordCount.jar WordCount*.class
 	```
+or use the precompiled place the precompiled `WordCount.jar` file into the home directory.
+
 From there, place the `run.sh` and `onRestart_runThis.sh` files into the `/usr/local/hadoop` directory and run `sh onRestart_runThis.sh`
 
 After that, you should be able to just run `sh run.sh` to re-run the job without having to set everything up again.
