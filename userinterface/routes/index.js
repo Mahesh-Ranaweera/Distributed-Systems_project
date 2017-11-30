@@ -107,25 +107,123 @@ router.get('/progress', function (req, res, next) {
                     //hadoop
                     console.log("hadoop");
                     todo.shift(i);
-                    return res.redirect('/schedule');
+                    
+                    //start hadoop
+                    hadoop.start_hadoop(function(start){
+                        if(start){
+                            //if hadoop started start collecting data
+                            console.log("Hadoop started");
+                            hadoop.hadoop(function(collected){
+                                
+                                console.log(collected);
+
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbhadoop, function(done){
+                                    //after data collection stop hadoop
+                                    hadoop.stop_hadoop(function(stop){
+                                        console.log("hadoop stopped");
+                                        return res.redirect('/schedule');
+                                    });
+                                });
+                            })
+                        }else{
+                            //exit
+                            console.log("Hadoop failed");
+                            return res.redirect('/schedule');
+                        }
+                    });
                 }else if(todo[i].job.framework == "spark"){
                     //spark
                     console.log("spark");
                     todo.shift(i);
-                    return res.redirect('/schedule');
+                    
+                    //start spark
+                    spark.start_spark(function(start){
+                        if(start){
+                            //if spark started start collecting data
+                            console.log("Spark started");
+                            spark.spark(function(collected){
+                                
+                                console.log(collected);
+
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbspark, function(done){
+                                    //after data collection stop hadoop
+                                    spark.stop_spark(function(stop){
+                                        console.log("spark stopped");
+                                        return res.redirect('/schedule');
+                                    });
+                                });
+                            })
+                        }else{
+                            //exit
+                            console.log("Spark failed");
+                            return res.redirect('/schedule');
+                        }
+                    });
+
                 }else{
                     //flink 
                     console.log("flink");
                     todo.shift(i);
-                    return res.redirect('/schedule');
+                    
+                    //start flink
+                    flink.start_flink(function(start){
+                        if(start){
+                            //if flink started start collecting data
+                            console.log("Flink started");
+                            flink.flink(function(collected){
+                                
+                                console.log(collected);
+
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbflink, function(done){
+                                    //after data collection stop flink
+                                    flink.stop_flink(function(stop){
+                                        console.log("flink stopped");
+                                        return res.redirect('/schedule');
+                                    });
+                                });
+                            })
+                        }else{
+                            //exit
+                            console.log("Flink failed");
+                            return res.redirect('/schedule');
+                        }
+                    });
                 }
                 break;
             case "stream":
                 if(todo[i].job.framework == "storm"){
-                    //hadoop
+                    //storm
                     console.log("storm");
                     todo.shift(i);
-                    return res.redirect('/schedule');
+                
+                    //start storm
+                    storm.start_storm(function(start){
+                        if(start){
+                            //if samza started start collecting data
+                            console.log("Storm started");
+                            storm.storm(function(collected){
+                                
+                                //console.log(collected);
+
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbstorm, function(done){
+                                    //after data collection stop samza
+                                    storm.stop_storm(function(stop){
+                                        console.log("storm stopped");
+                                        return res.redirect('/schedule');
+                                    });
+                                });
+                            })
+                        }else{
+                            //exit
+                            console.log("Storm failed");
+                            return res.redirect('/schedule');
+                        }
+                    });
+
                 }else if(todo[i].job.framework == "samza"){
                     //spark
                     console.log("samza");
@@ -158,14 +256,63 @@ router.get('/progress', function (req, res, next) {
                     
                 }else if(todo[i].job.framework == "spark"){
                     //spark
-                    console.log("spark");
+                    console.log("spark_stream");
                     todo.shift(i);
-                    return res.redirect('/schedule');
+                    
+                    //start spark
+                    spark.start_spark_stream(function(start){
+                        if(start){
+                            //if spark started start collecting data
+                            console.log("Spark started");
+                            spark.spark_stream(function(collected){
+                                
+                                console.log(collected);
+
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbspark_stream, function(done){
+                                    //after data collection stop hadoop
+                                    spark.stop_spark_stream(function(stop){
+                                        console.log("spark stopped");
+                                        return res.redirect('/schedule');
+                                    });
+                                });
+                            })
+                        }else{
+                            //exit
+                            console.log("Spark failed");
+                            return res.redirect('/schedule');
+                        }
+                    });
+
                 }else{
                     //flink 
-                    console.log("flink");
+                    console.log("flink_stream");
                     todo.shift(i);
-                    return res.redirect('/schedule');
+
+                    //start flink
+                    flink.start_flink_stream(function(start){
+                        if(start){
+                            //if flink started start collecting data
+                            console.log("Flink started");
+                            flink.flink(function(collected){
+                                
+                                console.log(collected);
+
+                                //add the data to db after process
+                                query.addHistory(client, collected, dbflink_stream, function(done){
+                                    //after data collection stop flink
+                                    flink.stop_flink_stream(function(stop){
+                                        console.log("flink stopped");
+                                        return res.redirect('/schedule');
+                                    });
+                                });
+                            })
+                        }else{
+                            //exit
+                            console.log("Flink failed");
+                            return res.redirect('/schedule');
+                        }
+                    });
                 }
 
                 break;
