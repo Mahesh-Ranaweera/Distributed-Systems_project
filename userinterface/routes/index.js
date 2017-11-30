@@ -53,7 +53,9 @@ const dbhadoop = 'hadoop',
 dbstorm  = 'storm',
 dbsamza  = 'samza',
 dbspark  = 'spark',
-dbflink  = 'flink';
+dbflink  = 'flink',
+dbspark_stream  = 'spark_stream',
+dbflink_stream  = 'flink_stream';
 
 //schedule the tasks for running each
 router.post('/sorter', function (req, res, next) {
@@ -144,12 +146,6 @@ router.get('/progress', function (req, res, next) {
                                         return res.redirect('/schedule');
                                     });
                                 });
-
-                                // //after data collection stop samza
-                                // samza.stop_samza(function(stop){
-                                //     console.log("samza stopped");
-                                //     return res.redirect('/schedule');
-                                // });
                             })
                         }else{
                             //exit
@@ -232,9 +228,19 @@ router.get('/history', function (req, res, next) {
             dbdata.graph_name = "Apache Spark";
             break;
         
+        case 'spark_stream':
+            dbdata.dbname = dbspark_stream;
+            dbdata.graph_name = "Apache Spark Stream";
+            break;
+        
         case 'flink':
             dbdata.dbname = dbflink;
             dbdata.graph_name = "Apache Flink";
+            break;
+        
+        case 'flink_stream':
+            dbdata.dbname = dbflink_stream;
+            dbdata.graph_name = "Apache Flink Stream";
     }
 
     query.getHistory(client, dbdata.dbname, function(data){
@@ -275,14 +281,13 @@ router.post('/compare', function (req, res, next) {
         var comp = JSON.parse(req.body.comp);
 
         query.getAllDB(client, function(data){
-            console.log("data all: " + data);
+            console.log("data all: " + data.samza.label);
 
             //only add the comparison data
             for(var i = 0; i < comp.length; i++){
         
                 if(comp[i].job.framework == 'hadoop' && comp[i].job.method == 'batch'){
                     console.log('Hadoop batch')
-
                 }
         
                 if(comp[i].job.framework == 'storm' && comp[i].job.method == 'stream'){

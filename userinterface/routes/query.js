@@ -88,13 +88,15 @@ var getAllDB = function(client, callback){
         rowMode: 'array'
     }
 
-    alldata = {
-        'hadoop': null,
-        'storm' : null,
-        'samza' : null,
-        'spark' : null,
-        'flink' : null
+    const query6 = {
+        text : "SELECT * FROM spark_stream",
+        rowMode: 'array'
     }
+
+    const query7 = {
+        text : "SELECT * FROM flink_stream",
+        rowMode: 'array'
+    }    
 
     alldata = {
         'hadoop': {
@@ -121,10 +123,22 @@ var getAllDB = function(client, callback){
             'label': null,
             'mem': null,
             'cpu': null
+        },'spark_stream' : {
+            'label': null,
+            'mem': null,
+            'cpu': null
+        },
+        'flink_stream' : {
+            'label': null,
+            'mem': null,
+            'cpu': null
         }
     }
 
-    var hadoop_arr, storm_arr, samza_arr, spark_arr, flink_arr = [];
+    //var hadoop_arr, storm_arr, samza_arr, spark_arr, flink_arr = [];
+    var graph_labels = [];
+    var graph_cpu = [];
+    var graph_mem = [];
 
     //get hadoop data
     client.query(query1, (err, res) => {
@@ -133,7 +147,17 @@ var getAllDB = function(client, callback){
         }else{
             //console.log(res.rows);
 
-            alldata.hadoop = res.rows;
+            graph_labels, graph_cpu, graph_mem = [];
+
+            for(var i = 0; i < res.rows.length; i++){
+                graph_labels.push(res.rows[i][0]);
+                graph_cpu.push(res.rows[i][1]);
+                graph_mem.push(res.rows[i][2])
+            }
+
+            alldata.hadoop.label = graph_labels;
+            alldata.hadoop.mem = graph_mem;
+            alldata.hadoop.cpu = graph_cpu;
 
             //get storm data
             client.query(query2, (err, res) =>{
@@ -142,16 +166,35 @@ var getAllDB = function(client, callback){
                 }else{
                     //console.log(res.rows);
 
-                    alldata.storm = res.rows;
+                    graph_labels, graph_cpu, graph_mem = [];
+                    
+                    for(var i = 0; i < res.rows.length; i++){
+                        graph_labels.push(res.rows[i][0]);
+                        graph_cpu.push(res.rows[i][1]);
+                        graph_mem.push(res.rows[i][2])
+                    }
+        
+                    alldata.storm.label = graph_labels;
+                    alldata.storm.mem = graph_mem;
+                    alldata.storm.cpu = graph_cpu;
 
                     //get samza data
                     client.query(query3, (err, res) => {
                         if(err){
                             console.log(err);
                         }else{
-                            console.log(res.rows);
                             
-                            alldata.samza = res.rows;
+                            graph_labels, graph_cpu, graph_mem = [];
+                            
+                            for(var i = 0; i < res.rows.length; i++){
+                                graph_labels.push(res.rows[i][0]);
+                                graph_cpu.push(res.rows[i][1]);
+                                graph_mem.push(res.rows[i][2])
+                            }
+                
+                            alldata.samza.label = graph_labels;
+                            alldata.samza.mem = graph_mem;
+                            alldata.samza.cpu = graph_cpu;
 
                             //get spark data
                             client.query(query4, (err, res) => {
@@ -160,7 +203,17 @@ var getAllDB = function(client, callback){
                                 }else{
                                     //console.log(res.rows)
 
-                                    alldata.spark = res.rows;
+                                    graph_labels, graph_cpu, graph_mem = [];
+                                    
+                                    for(var i = 0; i < res.rows.length; i++){
+                                        graph_labels.push(res.rows[i][0]);
+                                        graph_cpu.push(res.rows[i][1]);
+                                        graph_mem.push(res.rows[i][2])
+                                    }
+                        
+                                    alldata.spark.label = graph_labels;
+                                    alldata.spark.mem = graph_mem;
+                                    alldata.spark.cpu = graph_cpu;
 
                                     //get flink data
                                     client.query(query5, (err, res) => {
@@ -169,19 +222,68 @@ var getAllDB = function(client, callback){
                                         }else{
                                             //console.log(res.rows);
 
-                                            alldata.flink = res.rows;
-
-                                            callback(alldata);
+                                            graph_labels, graph_cpu, graph_mem = [];
+                                            
+                                            for(var i = 0; i < res.rows.length; i++){
+                                                graph_labels.push(res.rows[i][0]);
+                                                graph_cpu.push(res.rows[i][1]);
+                                                graph_mem.push(res.rows[i][2])
+                                            }
+                                
+                                            alldata.flink.label = graph_labels;
+                                            alldata.flink.mem = graph_mem;
+                                            alldata.flink.cpu = graph_cpu;
+                                            client.query(query6, (err, res) => {
+                                                if(err){
+                                                    console.log(err);
+                                                }else{
+                                                    //console.log(res.rows);
+        
+                                                    graph_labels, graph_cpu, graph_mem = [];
+                                                    
+                                                    for(var i = 0; i < res.rows.length; i++){
+                                                        graph_labels.push(res.rows[i][0]);
+                                                        graph_cpu.push(res.rows[i][1]);
+                                                        graph_mem.push(res.rows[i][2])
+                                                    }
+                                        
+                                                    alldata.spark_stream.label = graph_labels;
+                                                    alldata.spark_stream.mem = graph_mem;
+                                                    alldata.spark_stream.cpu = graph_cpu;
+        
+                                                    client.query(query7, (err, res) => {
+                                                        if(err){
+                                                            console.log(err);
+                                                        }else{
+                                                            //console.log(res.rows);
+                
+                                                            graph_labels, graph_cpu, graph_mem = [];
+                                                            
+                                                            for(var i = 0; i < res.rows.length; i++){
+                                                                graph_labels.push(res.rows[i][0]);
+                                                                graph_cpu.push(res.rows[i][1]);
+                                                                graph_mem.push(res.rows[i][2])
+                                                            }
+                                                
+                                                            alldata.flink_stream.label = graph_labels;
+                                                            alldata.flink_stream.mem = graph_mem;
+                                                            alldata.flink_stream.cpu = graph_cpu;
+                
+                                                            callback(alldata);
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
-                                    })
+                                    });
                                 }
-                            })
+                            });
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
-    })
+    });
 
     //client.query(query)
     //.then(res => console.log(res.rows))
