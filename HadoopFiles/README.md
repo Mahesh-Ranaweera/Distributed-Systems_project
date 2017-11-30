@@ -39,7 +39,9 @@ We followed DigitalOcean's install guide, found [here](https://www.digitalocean.
 	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre/
 	```
 
-5. Verify install
+5. Place the `hdfs-site.xml` file into the `/usr/local/hadoop/etc/hadoop` folder, and replace the default one, if it exists already.
+
+6. Verify install
 	```sh
 	/usr/local/hadoop/bin/hadoop
 	```
