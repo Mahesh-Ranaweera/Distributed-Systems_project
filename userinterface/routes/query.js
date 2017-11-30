@@ -147,7 +147,7 @@ var getAllDB = function(client, callback){
         }else{
             //console.log(res.rows);
 
-            graph_labels, graph_cpu, graph_mem = [];
+            graph_labels = [], graph_cpu = [], graph_mem = [];
 
             for(var i = 0; i < res.rows.length; i++){
                 graph_labels.push(res.rows[i][0]);
@@ -166,7 +166,7 @@ var getAllDB = function(client, callback){
                 }else{
                     //console.log(res.rows);
 
-                    graph_labels, graph_cpu, graph_mem = [];
+                    graph_labels = [], graph_cpu = [], graph_mem = [];
                     
                     for(var i = 0; i < res.rows.length; i++){
                         graph_labels.push(res.rows[i][0]);
@@ -184,7 +184,7 @@ var getAllDB = function(client, callback){
                             console.log(err);
                         }else{
                             
-                            graph_labels, graph_cpu, graph_mem = [];
+                            graph_labels = [], graph_cpu = [], graph_mem = [];
                             
                             for(var i = 0; i < res.rows.length; i++){
                                 graph_labels.push(res.rows[i][0]);
@@ -203,7 +203,7 @@ var getAllDB = function(client, callback){
                                 }else{
                                     //console.log(res.rows)
 
-                                    graph_labels, graph_cpu, graph_mem = [];
+                                    graph_labels = [], graph_cpu = [], graph_mem = [];
                                     
                                     for(var i = 0; i < res.rows.length; i++){
                                         graph_labels.push(res.rows[i][0]);
@@ -222,7 +222,7 @@ var getAllDB = function(client, callback){
                                         }else{
                                             //console.log(res.rows);
 
-                                            graph_labels, graph_cpu, graph_mem = [];
+                                            graph_labels = [], graph_cpu = [], graph_mem = [];
                                             
                                             for(var i = 0; i < res.rows.length; i++){
                                                 graph_labels.push(res.rows[i][0]);
@@ -239,7 +239,7 @@ var getAllDB = function(client, callback){
                                                 }else{
                                                     //console.log(res.rows);
         
-                                                    graph_labels, graph_cpu, graph_mem = [];
+                                                    graph_labels = [], graph_cpu = [], graph_mem = [];
                                                     
                                                     for(var i = 0; i < res.rows.length; i++){
                                                         graph_labels.push(res.rows[i][0]);
@@ -257,7 +257,7 @@ var getAllDB = function(client, callback){
                                                         }else{
                                                             //console.log(res.rows);
                 
-                                                            graph_labels, graph_cpu, graph_mem = [];
+                                                            graph_labels = [], graph_cpu = [], graph_mem = [];
                                                             
                                                             for(var i = 0; i < res.rows.length; i++){
                                                                 graph_labels.push(res.rows[i][0]);
@@ -269,6 +269,8 @@ var getAllDB = function(client, callback){
                                                             alldata.flink_stream.mem = graph_mem;
                                                             alldata.flink_stream.cpu = graph_cpu;
                 
+                                                            console.log(alldata);
+
                                                             callback(alldata);
                                                         }
                                                     });

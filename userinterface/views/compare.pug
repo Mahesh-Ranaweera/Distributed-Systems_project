@@ -6,25 +6,108 @@ block content
             a(href="/").menu-icon
                 span(uk-icon="icon: home")
 
-
-        .dashb_section.extra-margin
-            .uk-card.uk-card-default.uk-card-body.card-border-radius
-                .uk-card-title
-                    | 
-                .uk-margin
-                    canvas#cpugraph
+        .extra-margin
+        if batch
+            .dashb_section
+                .uk-card.uk-card-default.uk-card-body.card-border-radius
+                    .uk-card-title
+                        | CPU Comparison : Batch Frameworks
+                    .uk-margin
+                        canvas#batchcpu
 
             .dashb_section.min-margin
-            .uk-card.uk-card-default.uk-card-body.card-border-radius
-                .uk-card-title
-                    | 
-                .uk-margin
-                    canvas#memgraph
+                .uk-card.uk-card-default.uk-card-body.card-border-radius
+                    .uk-card-title
+                        | Memory Comparison : Batch Frameworks
+                    .uk-margin
+                        canvas#batchmem
 
+        if stream
+            .dashb_section.min-margin
+                .uk-card.uk-card-default.uk-card-body.card-border-radius
+                    .uk-card-title
+                        | CPU Comparison : Stream Frameworks
+                    .uk-margin
+                        canvas#streamcpu
+
+            .dashb_section.min-margin
+                .uk-card.uk-card-default.uk-card-body.card-border-radius
+                    .uk-card-title
+                        | Memory Comparison : Stream Frameworks
+                    .uk-margin
+                        canvas#streammem
 
     script.
-        
+
+        if(#{batch}){
+            //batch cpu graph
+            var ctx1 = document.getElementById('batchcpu').getContext('2d');
+            var chart1 = new Chart(ctx1, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: [#{graph_labels}],
+                    datasets: [#{batch_cpu}],
+                    
+                },
+
+                // Configuration options go here
+                options: {}
+            });            
 
 
+            //batch memory graph
+            var ctx2 = document.getElementById('batchmem').getContext('2d');
+            var chart2 = new Chart(ctx2, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: [#{graph_labels}],
+                    datasets: [#{batch_mem}],
+                },
+
+                // Configuration options go here
+                options: {}
+            });
+        }
+
+        if(#{stream}){
+            //stream cpu graph
+            var ctx3 = document.getElementById('streamcpu').getContext('2d');
+            var chart3 = new Chart(ctx3, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: [#{graph_labels}],
+                    datasets: [#{stream_cpu}],
+                },
+
+                // Configuration options go here
+                options: {}
+            });
+
+            //stream mem graph
+            var ctx4 = document.getElementById('streammem').getContext('2d');
+            var chart4 = new Chart(ctx4, {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: [#{graph_labels}],
+                    datasets: [#{stream_mem}],
+                    
+                },
+
+                // Configuration options go here
+                options: {}
+            });
+        }
               
           

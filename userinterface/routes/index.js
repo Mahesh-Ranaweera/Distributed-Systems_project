@@ -275,48 +275,170 @@ router.post('/compare', function (req, res, next) {
     console.log(req.body.comp);
 
     if(req.body.comp != 0){
-        var graphs = [];
 
         //get the comparisons from main page
         var comp = JSON.parse(req.body.comp);
 
+        var batch = false;
+        var stream = false;
+        var label_arr = [];
+        var batch_cpu = [], batch_mem = [], stream_cpu = [], stream_mem = [];
+
+        for(var i=0; i<32; i++){
+            label_arr.push(i);
+        }
+
+        var batch_graphs = {
+            batch_data: null,
+        }
+
+        var stream_graphs = {
+            stream_data: null,
+        }
+
         query.getAllDB(client, function(data){
-            console.log("data all: " + data.samza.label);
 
             //only add the comparison data
             for(var i = 0; i < comp.length; i++){
         
                 if(comp[i].job.framework == 'hadoop' && comp[i].job.method == 'batch'){
                     console.log('Hadoop batch')
+                    batch = true;
+
+                    var cpu = "{label: 'Apache Hadoop',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.hadoop.cpu+"],}";
+
+                     var mem = "{label: 'Apache Hadoop',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.hadoop.mem+"],}";
+
+                    batch_cpu.push(cpu);
+                    batch_mem.push(mem);
                 }
         
                 if(comp[i].job.framework == 'storm' && comp[i].job.method == 'stream'){
                     console.log('Storm Stream')
+                    stream = true;
+
+                    var cpu = "{label: 'Apache Storm',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.storm.cpu+"],}";
+
+                    var mem = "{label: 'Apache Storm',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.storm.mem+"],}";
+
+                    stream_cpu.push(cpu);
+                    stream_mem.push(mem);
                 }
         
                 if(comp[i].job.framework == 'samza' && comp[i].job.method == 'stream'){
                     console.log('Samza Stream')
+                    stream = true;
+
+                    var cpu = "{label: 'Apache Samza',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.samza.cpu+"],}";
+
+                    var mem = "{label: 'Apache Samza',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.samza.mem+"],}";
+
+                    stream_cpu.push(cpu);
+                    stream_mem.push(mem);
                 }
         
                 if(comp[i].job.framework == 'spark' && comp[i].job.method == 'batch'){
                     console.log('Spark Batch')
+                    batch = true;
+
+                    var cpu = "{label: 'Apache Spark',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.spark.cpu+"],}";
+
+                     var mem = "{label: 'Apache Spark',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.spark.mem+"],}";
+
+                    batch_cpu.push(cpu);
+                    batch_mem.push(mem);
                 }
         
                 if(comp[i].job.framework == 'spark' && comp[i].job.method == 'stream'){
                     console.log('Spark Stream')
+                    stream = true;
+
+                    var cpu = "{label: 'Apache Spark_stream',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.spark_stream.cpu+"],}";
+
+                    var mem = "{label: 'Apache Spark_stream',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.spark_stream.mem+"],}";
+
+                    stream_cpu.push(cpu);
+                    stream_mem.push(mem);
                 }
         
                 if(comp[i].job.framework == 'flink' && comp[i].job.method == 'batch'){
                     console.log('Flink Batch')
+                    batch = true;
+
+                    var cpu = "{label: 'Apache Flink',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.flink.cpu+"],}";
+
+                     var mem = "{label: 'Apache Flink',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.flink.mem+"],}";
+
+                    batch_cpu.push(cpu);
+                    batch_mem.push(mem);
                 }
         
                 if(comp[i].job.framework == 'flink' && comp[i].job.method == 'stream'){
                     console.log('Flink Stream')
+                    stream = true;
+
+                    var cpu = "{label: 'Apache Flink_stream',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.flink_stream.cpu+"],}";
+
+                    var mem = "{label: 'Apache Flink',"+
+                    "backgroundColor: 'rgba(52, 152, 219, 0.5)',"+
+                    "borderColor: 'rgba(41, 128, 185, 1)',"+
+                    "data: ["+data.flink_stream.mem+"],}";
+
+                    stream_cpu.push(cpu);
+                    stream_mem.push(mem);
                 }
             }
-            
+
+            //console.log(stream_mem)
+
             res.render('compare', {
                 title: 'History Comparison',
+                batch: batch,
+                stream: stream,
+                graph_labels: label_arr,
+                batch_cpu: batch_cpu,
+                batch_mem: batch_mem,
+                stream_cpu: stream_cpu,
+                stream_mem: stream_mem,
             });
         });
     }else{
