@@ -27,7 +27,19 @@ module.exports = function(client){
                     cpu VARCHAR(50) NOT NULL, 
                     PRIMARY KEY(id)
                 );
+                CREATE TABLE IF NOT EXISTS SPARK_STREAM(
+                    id SERIAL, 
+                    mem VARCHAR(50) NOT NULL, 
+                    cpu VARCHAR(50) NOT NULL, 
+                    PRIMARY KEY(id)
+                );
                 CREATE TABLE IF NOT EXISTS FLINK(
+                    id SERIAL,
+                    mem VARCHAR(50) NOT NULL, 
+                    cpu VARCHAR(50) NOT NULL, 
+                    PRIMARY KEY(id)
+                );
+                CREATE TABLE IF NOT EXISTS FLINK_STREAM(
                     id SERIAL,
                     mem VARCHAR(50) NOT NULL, 
                     cpu VARCHAR(50) NOT NULL, 
