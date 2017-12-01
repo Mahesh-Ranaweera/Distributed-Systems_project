@@ -151,8 +151,8 @@ var getAllDB = function(client, callback){
 
             for(var i = 0; i < res.rows.length; i++){
                 graph_labels.push(res.rows[i][0]);
-                graph_cpu.push(res.rows[i][1]);
-                graph_mem.push(res.rows[i][2])
+                graph_cpu.push(res.rows[i][2]);
+                graph_mem.push(res.rows[i][1])
             }
 
             alldata.hadoop.label = graph_labels;
@@ -170,8 +170,8 @@ var getAllDB = function(client, callback){
                     
                     for(var i = 0; i < res.rows.length; i++){
                         graph_labels.push(res.rows[i][0]);
-                        graph_cpu.push(res.rows[i][1]);
-                        graph_mem.push(res.rows[i][2])
+                        graph_cpu.push(res.rows[i][2]);
+                        graph_mem.push(res.rows[i][1])
                     }
         
                     alldata.storm.label = graph_labels;
@@ -188,8 +188,8 @@ var getAllDB = function(client, callback){
                             
                             for(var i = 0; i < res.rows.length; i++){
                                 graph_labels.push(res.rows[i][0]);
-                                graph_cpu.push(res.rows[i][1]);
-                                graph_mem.push(res.rows[i][2])
+                                graph_cpu.push(res.rows[i][2]);
+                                graph_mem.push(res.rows[i][1])
                             }
                 
                             alldata.samza.label = graph_labels;
@@ -207,8 +207,8 @@ var getAllDB = function(client, callback){
                                     
                                     for(var i = 0; i < res.rows.length; i++){
                                         graph_labels.push(res.rows[i][0]);
-                                        graph_cpu.push(res.rows[i][1]);
-                                        graph_mem.push(res.rows[i][2])
+                                        graph_cpu.push(res.rows[i][2]);
+                                        graph_mem.push(res.rows[i][1])
                                     }
                         
                                     alldata.spark.label = graph_labels;
@@ -226,8 +226,8 @@ var getAllDB = function(client, callback){
                                             
                                             for(var i = 0; i < res.rows.length; i++){
                                                 graph_labels.push(res.rows[i][0]);
-                                                graph_cpu.push(res.rows[i][1]);
-                                                graph_mem.push(res.rows[i][2])
+                                                graph_cpu.push(res.rows[i][2]);
+                                                graph_mem.push(res.rows[i][1])
                                             }
                                 
                                             alldata.flink.label = graph_labels;
@@ -243,8 +243,8 @@ var getAllDB = function(client, callback){
                                                     
                                                     for(var i = 0; i < res.rows.length; i++){
                                                         graph_labels.push(res.rows[i][0]);
-                                                        graph_cpu.push(res.rows[i][1]);
-                                                        graph_mem.push(res.rows[i][2])
+                                                        graph_cpu.push(res.rows[i][2]);
+                                                        graph_mem.push(res.rows[i][1])
                                                     }
                                         
                                                     alldata.spark_stream.label = graph_labels;
@@ -261,8 +261,8 @@ var getAllDB = function(client, callback){
                                                             
                                                             for(var i = 0; i < res.rows.length; i++){
                                                                 graph_labels.push(res.rows[i][0]);
-                                                                graph_cpu.push(res.rows[i][1]);
-                                                                graph_mem.push(res.rows[i][2])
+                                                                graph_cpu.push(res.rows[i][2]);
+                                                                graph_mem.push(res.rows[i][1])
                                                             }
                                                 
                                                             alldata.flink_stream.label = graph_labels;

@@ -6,7 +6,7 @@ var flinkdata = [];
 //start flink
 function start_flink(callback){
     //start flink
-    var URL = 'ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/start_flink';
+    var URL = 'http://ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/start_flink';
     
     //request to start flink
     request.get(URL, function(err, resp, body){
@@ -29,7 +29,7 @@ function start_flink(callback){
 
 function stop_flink(callback){
     //stop flink
-    var URL = 'ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/stop_flink';
+    var URL = 'http://ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/stop_flink';
     
     //request to stop flink
     request.get(URL, function(err, resp, body){

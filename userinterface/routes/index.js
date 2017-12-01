@@ -94,10 +94,11 @@ router.get('/schedule', function(req, res, next){
 
 router.get('/progress', function (req, res, next) {
     var len = todo.length;
-    console.log("length " + len + " " + todo);
 
     //perform each test by going through the jobs
     for(var i=0; i < todo.length; i++){
+
+        console.log(todo[i].job.framework + " " + todo[i].job.method);
 
         switch(todo[i].job.method){
 
@@ -132,6 +133,8 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+
+                    //return res.redirect('/schedule');
                 }else if(todo[i].job.framework == "spark"){
                     //spark
                     console.log("spark");
@@ -161,6 +164,7 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+                    //return res.redirect('/schedule');
 
                 }else{
                     //flink 
@@ -191,6 +195,7 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+                    //return res.redirect('/schedule');
                 }
                 break;
             case "stream":
@@ -223,6 +228,7 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+                    //return res.redirect('/schedule');
 
                 }else if(todo[i].job.framework == "samza"){
                     //spark
@@ -253,6 +259,7 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+                    //return res.redirect('/schedule');
                     
                 }else if(todo[i].job.framework == "spark"){
                     //spark
@@ -283,6 +290,7 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+                    //return res.redirect('/schedule');
 
                 }else{
                     //flink 
@@ -313,12 +321,13 @@ router.get('/progress', function (req, res, next) {
                             return res.redirect('/schedule');
                         }
                     });
+                    //return res.redirect('/schedule');
                 }
 
                 break;
 
             default:
-                
+                return res.redirect('/schedule');
         }
     }
 });
@@ -364,7 +373,7 @@ router.get('/represent', function (req, res, next) {
         }
 
         if(completed_list[i].job.framework == 'flink' && completed_list[i].job.method == 'stream'){
-            text += 'Apache Flink - Batch';
+            text += 'Apache Flink - Stream';
             links.push('/history?reqdb=flink_stream')
         }
 
@@ -598,7 +607,7 @@ router.post('/compare', function (req, res, next) {
                     "borderColor: 'rgba(44, 62, 80, 1)',"+
                     "data: ["+data.flink_stream.cpu+"],}";
 
-                    var mem = "{label: 'Apache Flink',"+
+                    var mem = "{label: 'Apache Flink_Stream',"+
                     "backgroundColor: 'rgba(52, 73, 94, 0.5)',"+
                     "borderColor: 'rgba(44, 62, 80, 1)',"+
                     "data: ["+data.flink_stream.mem+"],}";
