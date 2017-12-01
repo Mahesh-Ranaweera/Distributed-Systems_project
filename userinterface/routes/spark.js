@@ -6,7 +6,7 @@ var sparkdata = [];
 //start spark
 function start_spark(callback){
     //start spark
-    var URL = 'http://138.197.175.19:3000/start_dfs';
+    var URL = 'http://ec2-34-211-226-164.us-west-2.compute.amazonaws.com:3000/start_spark';
     
     //request to start spark
     request.get(URL, function(err, resp, body){
@@ -29,7 +29,7 @@ function start_spark(callback){
 
 function stop_spark(callback){
     //stop spark
-    var URL = 'http://138.197.175.19:3000/stop_dfs';
+    var URL = 'http://ec2-34-211-226-164.us-west-2.compute.amazonaws.com:3000/stop_spark';
     
     //request to stop spark
     request.get(URL, function(err, resp, body){
@@ -49,7 +49,7 @@ function stop_spark(callback){
 
 function start_spark_stream(callback){
     //start spark
-    var URL = 'http://138.197.175.19:3000/start_dfs';
+    var URL = 'http://ec2-34-211-226-164.us-west-2.compute.amazonaws.com:3000/start_spark_stream';
     
     //request to start spark
     request.get(URL, function(err, resp, body){
@@ -72,7 +72,7 @@ function start_spark_stream(callback){
 
 function stop_spark_stream(callback){
     //stop spark
-    var URL = 'http://138.197.175.19:3000/stop_dfs';
+    var URL = 'http://ec2-34-211-226-164.us-west-2.compute.amazonaws.com:3000/stop_spark_stream';
     
     //request to stop spark
     request.get(URL, function(err, resp, body){
@@ -93,7 +93,7 @@ function stop_spark_stream(callback){
 // //start collecting data
 // var sparkdata = [];
 function collectspark(){
-    var URL = 'http://138.197.175.19:3000/stats_dfs';
+    var URL = 'http://ec2-34-211-226-164.us-west-2.compute.amazonaws.com:3000/stats_dfs';
 
     request.get(URL, function(err, resp, body){
         if(!err && resp.statusCode == 200){
