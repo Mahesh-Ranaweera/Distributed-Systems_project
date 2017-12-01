@@ -6,9 +6,9 @@ Distributed Systems group project
 
 Hadoop: [HadoopFiles/README.md](HadoopFiles/README.md)
 
-Storm: [/StormSetup.md](StormSetup.md)
+Storm: [StormSetup.md](StormSetup.md)
 
-Samza: [/SamzaSetup.md](SamzaSetup.md)
+Samza: [SamzaSetup.md](SamzaSetup.md)
 
 Spark: [SparkFiles/README.md](SparkFiles/README.md)
 
