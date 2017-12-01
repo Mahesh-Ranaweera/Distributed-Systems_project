@@ -269,7 +269,7 @@ var getAllDB = function(client, callback){
                                                             alldata.flink_stream.mem = graph_mem;
                                                             alldata.flink_stream.cpu = graph_cpu;
                 
-                                                            console.log(alldata);
+                                                            //console.log(alldata);
 
                                                             callback(alldata);
                                                         }

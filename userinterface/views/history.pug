@@ -29,6 +29,12 @@ block content
 
         var cpugraph = document.getElementById('cpugraph').getContext('2d');
         var memgraph = document.getElementById('memgraph').getContext('2d');
+
+        label_arr = [];
+        //generate proper graph_lables
+        for(var i=0; i<graph_labels.length; i++){
+            label_arr.push(i);
+        }
         
         var chart1 = new Chart(cpugraph, {
             // The type of chart we want to create
@@ -36,7 +42,7 @@ block content
 
             // The data for our dataset
             data: {
-                labels: graph_labels,
+                labels: label_arr,
                 datasets: [{
                     label: "CPU",
                     backgroundColor: 'rgba(52, 152, 219, 0.5)',
@@ -45,7 +51,22 @@ block content
                 }]
             },
             // Configuration options go here
-            options: {}
+            options: {
+                scales: {
+                    yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'CPU USAGE %'
+                    }
+                    }],
+                    xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'TEST RUN'
+                    }
+                    }]
+                }     
+            }
         });
 
         var chart2 = new Chart(memgraph, {
@@ -54,7 +75,7 @@ block content
 
             // The data for our dataset
             data: {
-                labels: graph_labels,
+                labels: label_arr,
                 datasets: [{
                     label: "Memory",
                     backgroundColor: 'rgba(52, 73, 94, 0.5)',
@@ -63,7 +84,22 @@ block content
                 }]
             },
             // Configuration options go here
-            options: {}
+            options: {
+                scales: {
+                    yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'MEMORY USAGE'
+                    }
+                    }],
+                    xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'TEST RUN'
+                    }
+                    }]
+                } 
+            }
         });
 
 

@@ -54,7 +54,22 @@ block content
                 },
 
                 // Configuration options go here
-                options: {}
+                options: {
+                    scales: {
+                    yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'CPU USAGE %'
+                    }
+                    }],
+                    xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'TEST RUN'
+                    }
+                    }]
+                } 
+                }
             });            
 
 
@@ -71,7 +86,22 @@ block content
                 },
 
                 // Configuration options go here
-                options: {}
+                options: {
+                    scales: {
+                    yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'MEMORY USAGE'
+                    }
+                    }],
+                    xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'TEST RUN'
+                    }
+                    }]
+                    }
+                }
             });
         }
 
@@ -89,7 +119,22 @@ block content
                 },
 
                 // Configuration options go here
-                options: {}
+                options: {
+                                    scales: {
+                    yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'CPU USAGE %'
+                    }
+                    }],
+                    xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'TEST RUN'
+                    }
+                    }]
+                } 
+                }
             });
 
             //stream mem graph
@@ -106,7 +151,22 @@ block content
                 },
 
                 // Configuration options go here
-                options: {}
+                options: {
+                    scales: {
+                        yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'MEMORY USAGE'
+                        }
+                        }],
+                        xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'TEST RUN'
+                        }
+                        }]
+                    }
+                }
             });
         }
               
