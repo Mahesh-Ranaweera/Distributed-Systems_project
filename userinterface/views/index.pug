@@ -62,43 +62,77 @@ block content
                     | Historical Data of Big data frameworks
                 .uk-margin
                     .uk-card.uk-card-default.uk-card-body
-                        a(href='/history?reqdb=hadoop')
-                            .uk-card-badge.uk-label View History
                         .uk-card-title Apache Hadoop
                         img(src='/img/hadoop.png' width='200' height='100')
-                        p Description
+                        p 
+                            | Apache Hadoop is a framework for processing batch data. Uses MapReduce as its main processing engine.     
+                            b Advantage:
+                            |  Capable of handling enormous data-sets. 
+                            b Limitations:
+                            |  Reading and writing multiple times is slow and resource consuming
+                        a(href='/history?reqdb=hadoop')
+                            button.uk-button.uk-button-primary Batch History
 
                 .uk-margin
                     .uk-card.uk-card-default.uk-card-body
-                        a(href='/history?reqdb=storm')
-                            .uk-card-badge.uk-label View History
                         .uk-card-title Apache Storm
                         img(src='/img/storm.png' width='200' height='100')
-                        p Description
+                        p 
+                            | Apache Storm is a stream processing framework for extremely low latency workloads and new real-time processing. Can handle large quantity of data and deliver result with low latency.
+                            b  Advantage: 
+                            | Near real-time processing.
+                            | Extremely low latency for workloads.
+                            b  Limitations:
+                            | Does not offer ordering guarantees of messages
+                        a(href='/history?reqdb=storm')
+                            button.uk-button.uk-button-primary Stream History
 
                 .uk-margin
                     .uk-card.uk-card-default.uk-card-body
-                        a(href='/history?reqdb=samza')
-                            .uk-card-badge.uk-label View History
                         .uk-card-title Apache Samza
                         img(src='/img/samza.png' width='200' height='100')
-                        p Description
+                        p 
+                            | Apache Samza is a stream processing framework that uses Apache Kafka messaging system. With Kafka, Samza can provide fault tolerance, buffering and state storage. 
+                            b Advantages:
+                            |  Kafka provides replication of data that can be accessed with low latency.
+                            |  Kafka also eliminate the problems of back-pressure. 
+                            b Limitations:
+                            |  Does not provide accurate recovery of aggregate states(like count) in the event of failure.
+                        a(href='/history?reqdb=samza')
+                            button.uk-button.uk-button-primary Stream History
 
                 .uk-margin
                     .uk-card.uk-card-default.uk-card-body
-                        a(href='/history?reqdb=spark')
-                            .uk-card-badge.uk-label View History
                         .uk-card-title Apache Spark
                         img(src='/img/spark.png' width='200' height='100')
-                        p Description
+                        p 
+                            | Apache Spark is a hybrid processing framework that allows both stream and batch processing. Process all data in memory yielding faster processing. 
+                            b Advantages:
+                            |  Uses full in memory computations and processing optimization.
+                            |  Can be deployed as a standalone cluster or integrate with existing hadoop cluster. 
+                            b Limitations:
+                            |  Spark can cost more to run than a disk-based system.
+                        a(href='/history?reqdb=spark')
+                            button.uk-button.uk-button-primary Batch History
+                        a(href='/history?reqdb=spark_stream')
+                            button.uk-button.uk-button-primary Stream History
+                        
 
                 .uk-margin
                     .uk-card.uk-card-default.uk-card-body
-                        a(href='/history?reqdb=flink')
-                            .uk-card-badge.uk-label View History
                         .uk-card-title Apache Flink
                         img(src='/img/flink.png' width='200' height='100')
-                        p Description
+                        p 
+                            | Apache Flink is a hybrid processing framework that is capable of handling stream and batch tasks. Considers batch as a subset of stream processing. 
+                            b Advantages:
+                            |  Provide low-latency, high-throughput, and real entry-by-entry processing.
+                            |  Provide a web-based scheduling view for easily manage tasks and view the system. 
+                            b Limitations:
+                            |  Uses micro-batch architecture so might not be appropriate for many use-cases. 
+                        a(href='/history?reqdb=flink')
+                            button.uk-button.uk-button-primary Batch History
+                        a(href='/history?reqdb=flink_stream')
+                            button.uk-button.uk-button-primary Stream History
 
 
     //compare bidata
