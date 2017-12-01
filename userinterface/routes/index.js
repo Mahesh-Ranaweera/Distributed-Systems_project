@@ -264,7 +264,7 @@ router.get('/progress', function (req, res, next) {
                         if(start){
                             //if spark started start collecting data
                             console.log("Spark started");
-                            spark.spark_stream(function(collected){
+                            spark.spark(function(collected){
                                 
                                 console.log(collected);
 

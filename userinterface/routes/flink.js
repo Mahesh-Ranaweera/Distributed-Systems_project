@@ -6,7 +6,7 @@ var flinkdata = [];
 //start flink
 function start_flink(callback){
     //start flink
-    var URL = 'http://138.197.175.19:3000/start_dfs';
+    var URL = 'ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/start_flink';
     
     //request to start flink
     request.get(URL, function(err, resp, body){
@@ -29,7 +29,7 @@ function start_flink(callback){
 
 function stop_flink(callback){
     //stop flink
-    var URL = 'http://138.197.175.19:3000/stop_dfs';
+    var URL = 'ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/stop_flink';
     
     //request to stop flink
     request.get(URL, function(err, resp, body){
@@ -49,7 +49,7 @@ function stop_flink(callback){
 
 function start_flink_stream(callback){
     //start flink
-    var URL = 'http://138.197.175.19:3000/start_dfs';
+    var URL = 'http://ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/start_flink_stream';
     
     //request to start flink
     request.get(URL, function(err, resp, body){
@@ -72,7 +72,7 @@ function start_flink_stream(callback){
 
 function stop_flink_stream(callback){
     //stop flink
-    var URL = 'http://138.197.175.19:3000/stop_dfs';
+    var URL = 'http://ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/stop_flink_stream';
     
     //request to stop flink
     request.get(URL, function(err, resp, body){
@@ -93,7 +93,7 @@ function stop_flink_stream(callback){
 // //start collecting data
 // var flinkdata = [];
 function collectflink(){
-    var URL = 'http://138.197.175.19:3000/stats_dfs';
+    var URL = 'http://ec2-34-212-140-38.us-west-2.compute.amazonaws.com:3000/stats_dfs';
 
     request.get(URL, function(err, resp, body){
         if(!err && resp.statusCode == 200){
