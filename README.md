@@ -8,7 +8,7 @@ http://138.197.175.19:5000
 
 Hadoop: [HadoopFiles/README.md](HadoopFiles/README.md)
 
-Storm: [StormFiles/StormSetup.md](StormFies/StormSetup.md)
+Storm: [StormFiles/StormSetup.md](StormFiles/StormSetup.md)
 
 Samza: [SamzaFiles/SamzaSetup.md](SamzaFiles/SamzaSetup.md)
 
