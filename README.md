@@ -46,7 +46,7 @@ The application uses PostgreSQL, so you will need to insert the SQL file manuall
 
 ## Data
 
-The historical data that we use is available in the `data_graphs/stats_raw.xlsx` file.
+The historical data that we use is available in the `data&graphs/stats_raw.xlsx` file.
 This data was gathered over 10 runs for each server and measured CPU usage and memory usage.
 Usages were polled once every second.
-- Use `data_graphs/gathered_historical_data.sql` to insert historical data into the database.
+- Use `data&graphs/gathered_historical_data.sql` to insert historical data into the database.
