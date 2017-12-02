@@ -1,0 +1,33 @@
+#!/bin/bash
+
+COMMAND=$1
+
+#set the correct dir to excute folder
+DIR="/usr/local/hadoop"
+
+#start samza
+start_hadoop(){
+    echo "Starting Hadoop"
+    #if already started stop for clear start
+    sudo $DIR/startHadoop
+    #now run the job
+  
+}
+
+#stop samza
+stop_hadoop(){
+    echo "Stopping Hadoop"
+    sudo $DIR/stopHadoop
+}
+
+# Check arguments
+if [ "$COMMAND" == "start_hadoop" ]; then
+  start_hadoop
+  exit 0
+elif [ "$COMMAND" == "stop_hadoop" ]; then
+  stop_hadoop
+  exit 0
+else
+  echo "Enter commands"
+  exit 0
+fi

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+COMMAND=$1
+
+#set the correct dir to excute folder
+DIR="/home/ubuntu/server/"
+
+#start spark
+start_spark(){
+    echo "Starting Spark"
+    #if already started stop for clear start
+    sudo $DIR/spark-1.6.3-bin-hadoop2.6/run-batch.sh
+}
+
+#stop spark
+stop_spark(){
+    echo "Stopping Spark"
+}
+
+#start spark
+start_spark_stream(){
+    echo "Stating Spark"
+    sudo $DIR/spark-1.6.3-bin-hadoop2.6/run-stream.sh
+}
+
+#stop spark
+stop_spark_stream(){
+    echo "Stopping Spark"
+}
+
+
+# Check arguments
+if [ "$COMMAND" == "start_spark" ]; then
+  start_samza
+  exit 0
+elif [ "$COMMAND" == "stop_spark" ]; then
+  stop_samza
+  exit 0
+if [ "$COMMAND" == "start_spark_stream" ]; then
+  start_storm
+  exit 0
+elif [ "$COMMAND" 
+fi

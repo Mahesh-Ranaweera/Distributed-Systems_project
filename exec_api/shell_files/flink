@@ -1,0 +1,49 @@
+#!/bin/bash
+
+COMMAND=$1
+
+#set the correct dir to excute folder
+DIR=""
+
+#start flink
+start_flink(){
+    echo "Starting flink"
+    #if already started stop for clear start
+    sudo ./run-batch.sh
+}
+
+#stop flink
+stop_flink(){
+    echo "Stopping flink"
+}
+
+#start flink
+start_flink_stream(){
+    echo "Stating flink"
+    #sudo sysctl -w vm.max_map_count=262144
+    sudo ./run-stream.sh
+}
+
+#stop flink
+stop_flink_stream(){
+    echo "Stopping flink"
+}
+
+
+# Check arguments
+if [ "$COMMAND" == "start_flink" ]; then
+  start_flink
+  exit 0
+elif [ "$COMMAND" == "stop_flink" ]; then
+  stop_flink
+  exit 0
+elif [ "$COMMAND" == "start_flink_stream" ]; then
+  start_flink_stream
+  exit 0
+elif [ "$COMMAND" == "stop_flink_stream" ]; then
+  stop_flink_stream
+  exit 0
+else
+  echo "Enter commands"
+  exit 0
+fi

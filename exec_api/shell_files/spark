@@ -1,0 +1,49 @@
+#!/bin/bash
+
+COMMAND=$1
+
+#set the correct dir to excute folder
+DIR=""
+
+#start spark
+start_spark(){
+    echo "Starting Spark"
+    #if already started stop for clear start
+    sudo ./run-batch.sh
+}
+
+#stop spark
+stop_spark(){
+    echo "Stopping Spark"
+}
+
+#start spark
+start_spark_stream(){
+    echo "Stating Spark"
+    sudo sysctl -w vm.max_map_count=262144
+    sudo ./run-stream.sh
+}
+
+#stop spark
+stop_spark_stream(){
+    echo "Stopping Spark"
+}
+
+
+# Check arguments
+if [ "$COMMAND" == "start_spark" ]; then
+  start_spark
+  exit 0
+elif [ "$COMMAND" == "stop_spark" ]; then
+  stop_spark
+  exit 0
+elif [ "$COMMAND" == "start_spark_stream" ]; then
+  start_spark_stream
+  exit 0
+elif [ "$COMMAND" == "stop_spark_stream" ]; then
+  stop_spark_stream
+  exit 0
+else
+  echo "Enter commands"
+  exit 0
+fi
